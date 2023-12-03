@@ -9,13 +9,9 @@ $taskName = "";
 $cusName = "";
 
 
-$uID = $_SESSION['uniqueID'];
-
 if (!$conn) {
     die("Connection Unsuccessful - " . mysqli_error());
 }
-
-
 
 $sql = 'select taskdescription , name from tasks
         inner join user_registration on user_registration.taskid = tasks.taskid
@@ -107,7 +103,9 @@ mysqli_close($conn);
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
     <title>Customer Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
@@ -132,6 +130,11 @@ mysqli_close($conn);
             font-weight: bold;
             font-size: 60px;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .cusDetails {
+            margin: 0;
+            padding: 0;
         }
 
         .cusDetails h3 {
@@ -169,10 +172,31 @@ mysqli_close($conn);
             border: 2px solid black;
         } */
 
+
         .secondTable {
             display: flex;
             flex-direction: column;
             justify-content: center;
+        }
+
+        .marginLeft {
+            margin-left: 3%;
+        }
+
+        #feedback {
+            display: none;
+        }
+
+        #buttonSet2 {
+            display: none;
+        }
+
+        #buttonSet1 {
+            display: flex;
+        }
+
+        .progressTask {
+            display: none;
         }
     </style>
 </head>
@@ -187,38 +211,41 @@ mysqli_close($conn);
             </div>
         </div>
 
-        <div style="background-color: white; border: 3px solid black;">
-            <div class="row">
-                <div class="col-sm-12 col-md-12 col-lg-12 cusDetails">
-                    <h3> Welcome,
-                        <?php echo $cusName; ?>
-                    </h3>
-                    <h3> Reference No :
-                        <?php echo $uID; ?>
-                    </h3>
-                    <hr>
-                </div>
-            </div>
+        <div class="row" style="background-color: rgb(255, 255, 255); border: 3px solid black;">
+            <div class="col-sm-12 col-md-12 col-lg-12">
 
-            <div class="row">
-                <div class="col-sm-12 col-md-12 col-lg-5">
 
-                    <div class="row">
-                        <h3 class="text-center">Progress of task</h3>
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-12 cusDetails">
+                        <h3> Welcome,
+                            <?php echo $cusName; ?>
+                        </h3>
+                        <h3> Reference No :
+                            <?php echo $uID; ?>
+                        </h3>
+                        <hr>
                     </div>
+                </div>
+
+                <div class="row" id="progressTask">
+                    <div class="col-sm-12 col-md-12 col-lg-5">
+
+                        <div class="row">
+                            <h3 class="text-center">Progress of task</h3>
+                        </div>
 
 
-                    <fieldset>
-                        <legend>
-                            <h3>Task :
-                                <?php echo $taskName; ?>
-                            </h3>
-                        </legend>
+                        <fieldset>
+                            <legend>
+                                <h3>Task :
+                                    <?php echo $taskName; ?>
+                                </h3>
+                            </legend>
 
-                        <!-- <table border="0" class="table table-bordered"> -->
-                        <table border="0" class="table table-striped">
+                            <!-- <table border="0" class="table table-bordered"> -->
+                            <table border="0" class="table table-striped">
 
-                            <?php
+                                <?php
                             if ($result1->num_rows > 0) {
 
                                 echo ' <tr><th class="text-center col-3">Sub Task</th><th class="text-center col-3" >Date Completed</th></tr>';
@@ -235,24 +262,21 @@ mysqli_close($conn);
                                 echo "<tr>  <td colspan='2'>No data found</td></tr>";
                             }
                             ?>
-                        </table>
-                    </fieldset>
+                            </table>
+                        </fieldset>
 
-                </div>
-                <div class="col-sm-12 col-md-12 col-lg-7 secondTable">
-
-
-                    <div class="row">
-                        <h3 class="text-center p-3">Error Details </h3>
                     </div>
-
-                    <div class="table2 p-3" style="display: flex; flex-direction: row;">
-                        <br>
+                    <div class="col-sm-12 col-md-12 col-lg-7 secondTable">
 
 
+                        <div class="row">
+                            <h3 class="text-center p-3">Error Details </h3>
+                        </div>
 
+                        <div class="table2 p-3" style="display: flex; flex-direction: row;">
+                            <br>
 
-                        <?php
+                            <?php
                         if ($result2->num_rows > 0) {
 
                             echo '<table border="0" class="table table-striped" style="margin: auto;"> <tr><th class="text-center">Error Name</th> <th class="text-center" >Date Added</th><th class="text-center" >Remark</th></tr>';
@@ -272,21 +296,63 @@ mysqli_close($conn);
                         }
                         ?>
 
+                        </div>
                     </div>
                 </div>
-            </div>
+
+                <div class="row" id="feedback">
+                    <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12">
+                        <h3>Customer Feedback</h3>
+
+                        <div class="row">
+                            <div class="col-sm-10 col-md-10 col-lg-8 mb-2 text-bolder marginLeft">
+                                <select class="form-select"
+                                            id="feedbackList" name="feedbackList">
+                                            <option selected>Select Feedback (1 to 5)</option>
+                                            <option value="1">Not Satisfied</option>
+                                            <option value="2">Dissatisfied</option>
+                                            <option value="3">Neutral</option>
+                                            <option value="4">Satisfied</option>
+                                            <option value="5">Very Satisfied</option>
+                                        </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-10  col-md-10 col-lg-8 marginLeft">
+                                <textarea name="feedbackText" id="feedbackText" rows="10"
+                                class="form-control"
+                                placeholder="Enter your feedback here"></textarea>
+                            </div>
+                        </div>
 
 
-            <div class="row">
-                <hr>
-                <div class="col-sm-12 col-md-12 col-lg-12 d-flex">
-                    <button type="button" class="mx-auto btn btn-primary buttons"> Provide Feedback </button>
-                    <button type="button" class="mx-auto btn btn-primary buttons"
-                        onclick="location.href='customer.php'"> Back </button>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <hr>
+                    <div class="col-sm-12 col-md-12 col-lg-12 mb-1" id="buttonSet1">
+                        <button type="button" onclick="checkTaskStatuFeedback()" id="buttonSet1"
+                            class="mx-auto btn btn-primary buttons"> Provide Feedback </button>
+                        <button type="button" class="mx-auto btn btn-primary buttons"
+                            onclick="location.href='customer.php'">
+                            Back to Home</button>
+                    </div>
+
+                    <div class="col-sm-12 col-md-12 col-lg-12 mb-3" id="buttonSet2">
+                        <button type="button" onclick="postFeedback()"
+                            class="mx-auto my-auto btn btn-primary buttons">Submit Feedback</button>
+                        <button type="button" onclick="back()"
+                            class="mx-auto my-auto btn btn-primary buttons">Back</button>
+                    </div>
+
                 </div>
             </div>
         </div>
     </div>
+
+    <script src="javascripts.js"></script>
+
 </body>
 
 </html>
