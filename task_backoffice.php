@@ -578,11 +578,7 @@ function clear()
 
         }
 
-        window.onunload = function(event) {
-  event.returnValue = "Write something clever here..";
-};
-
-
+   
         var currentDate = new Date();
         var options = { year: 'numeric', month: 'short', day: 'numeric' };
         var dateElement = document.getElementById("currentDate");
