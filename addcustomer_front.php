@@ -223,29 +223,62 @@ if (!isset($usertype)) {
         function discard() {
             let text = "Are you sure you want to discard?\nThis will direct you to Dashboard";
             if (confirm(text)) {
-
-                document.getElementById("name").value = "";
-                document.getElementById("email").value = "";
-                document.getElementById("nic").value = "";
-                document.getElementById("contact").value = "";
-                document.getElementById("address").value = "";
-                document.getElementById("taskID").value = "1";
-
+                resetFormFields();
                 window.location.href = 'dashboard_frontoffice.php';
-
                 return false;
             } else {
-
                 return false;
             }
+        }
+
+        function resetFormFields() {
+            document.getElementById("name").value = "";
+            document.getElementById("email").value = "";
+            document.getElementById("nic").value = "";
+            document.getElementById("contact").value = "";
+            document.getElementById("address").value = "";
+            document.getElementById("taskID").value = "1";
+        }
+
+        function validatePhoneNumber(phoneNumber) {
+            // Regular expression to match 10 digits
+            const phoneRegex = /^0\d{9}$/;
+            return phoneRegex.test(phoneNumber);
+        }
+
+        function validateNIC(NIC) {
+            // Regular expression
+            const NICRegex = /^(\d{9}[vV]|\d{10})$/;
+            return NICRegex.test(NIC);
+        }
+
+        function validateEmail(email) {
+            // Regular expression
+            const EmailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return EmailRegex.test(email);
         }
 
         function confirmButtonClick(event) {
-            var result = confirm("This will save the data and create new task and cannot be undone.\nAre you sure to do this action?");
-            if (!result) {
-                event.preventDefault();
-            }
+        var result = confirm("This will save the data and create a new task and cannot be undone.\nAre you sure you want to proceed?");
+        if (!result) {
+            event.preventDefault();
+        } else {
+            const phoneNumber = document.getElementById("contact").value;
+            const NIC = document.getElementById("nic").value;
+            const email = document.getElementById("email").value;
+
+        if (!validatePhoneNumber(phoneNumber)) {
+            alert("Please enter a valid 10-digit phone number");
+            event.preventDefault();
+        } else if (!validateNIC(NIC)) {
+            alert("Please enter a valid NIC number");
+            event.preventDefault();
+        } else if (!validateEmail(email)) {
+            alert("Please enter a valid Email");
+            event.preventDefault();
         }
+    }
+}
 
         fetch('AJAX/frontoffice/getTaskFront.php')
             .then(response => response.json())
