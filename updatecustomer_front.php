@@ -227,7 +227,7 @@ mysqli_close($conn);
                             
                             <tr>
                                 <td>Email: </td>
-                                <td><input type="text" id="email" value="<?php echo $email; ?>" readonly></td>
+                                <td><input type="email" id="email" value="<?php echo $email; ?>" readonly></td>
                             </tr> 
                             <tr>
                                 <td>Address: </td>
@@ -257,7 +257,7 @@ mysqli_close($conn);
                         </tr> 
                         <tr>
                             <td>New Email: </td>
-                            <td><input type="text" id="cusEmailNew"  name="cusEmailNew" value="<?php echo $email; ?>"></td>
+                            <td><input type="email" id="cusEmailNew"  name="cusEmailNew" value="<?php echo $email; ?>"></td>
                         </tr>                     
                     </table>
                     <br>
@@ -276,58 +276,78 @@ mysqli_close($conn);
     
     <script>
 
-        function clearForm() {
-        document.getElementById("id").value = "";
-        document.getElementById("name").value = "";
-        document.getElementById("email").value = "";
-        document.getElementById("nic").value = "";
-        document.getElementById("contact").value = "";
-        document.getElementById("address").value = "";
-        document.getElementById("cusContactNew").value = "";
-        document.getElementById("cusAddressNew").value = "";
-        document.getElementById("cusEmailNew").value = "";
-        }
+function clearForm() {
+    document.getElementById("id").value = "";
+    document.getElementById("name").value = "";
+    document.getElementById("email").value = "";
+    document.getElementById("nic").value = "";
+    document.getElementById("contact").value = "";
+    document.getElementById("address").value = "";
+    document.getElementById("cusContactNew").value = "";
+    document.getElementById("cusAddressNew").value = "";
+    document.getElementById("cusEmailNew").value = "";
+}
 
-
-
-       function discard() {
+function discard() {
     let text = "Are you sure you want to discard? \n This will direct you to Dashboard";
     if (confirm(text)) {
-       
-        document.getElementById("name").value = "";
-        document.getElementById("email").value = "";
-        document.getElementById("nic").value = "";
-        document.getElementById("contact").value = "";
-        document.getElementById("address").value = "";
-        
-
-        
+        clearForm();
         window.location.href = 'dashboard_frontoffice.php';
-
-        return false; 
+        return false;
     } else {
-        
-        return false; 
+        return false;
     }
 }
-       
 
+function validatePhoneNumber(phoneNumber) {
+    const phoneRegex = /^0\d{9}$/;
+    return phoneRegex.test(phoneNumber);
+}
+
+function validateEmail(email) {
+    const EmailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return EmailRegex.test(email);
+}
 
 function confirmButtonClick(event) {
-            
-            var result = confirm("This will update customer data in the task.\nAre you sure to do this action?");
-            
-            if (!result) {
-                event.preventDefault(); 
+    var result = confirm("This will update customer data in the task.\nAre you sure to do this action?");
+    if (!result) {
+        event.preventDefault();
+    }
+}
+
+function confirmButtonClick(event) {
+    var result = confirm("This will save the data and create a new task and cannot be undone.\nAre you sure you want to proceed?");
+    if (!result) {
+        event.preventDefault();
+    } else {
+        const email = document.getElementById("cusEmailNew").value;
+        const phoneNumber = document.getElementById("cusContactNew").value;
+        const address = document.getElementById("cusAddressNew").value;
+
+        // Check if any of the fields is empty
+        if (email.trim() === '' || phoneNumber.trim() === '' || address.trim() === '') {
+            alert("Please fill in all the required fields!");
+            event.preventDefault();
+        } else {
+            // Validate phone number and email
+            if (!validatePhoneNumber(phoneNumber)) {
+                alert("Please enter a valid 10-digit phone number");
+                event.preventDefault();
+            } 
+            if (!validateEmail(email)) {
+                alert("Please enter a valid Email");
+                event.preventDefault();
             }
         }
+    }
+}
 
+var currentDate = new Date();
+var options = { year: 'numeric', month: 'short', day: 'numeric' };
+var dateElement = document.getElementById("currentDate");
+dateElement.textContent = "Date: " + currentDate.toLocaleDateString('en-US', options);
 
-       
-        var currentDate = new Date();
-        var options = { year: 'numeric', month: 'short', day: 'numeric' };
-        var dateElement = document.getElementById("currentDate");
-        dateElement.textContent = "Date: " + currentDate.toLocaleDateString('en-US', options);
 
     </script>
 
