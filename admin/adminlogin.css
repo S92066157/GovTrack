@@ -1,0 +1,49 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    flex-direction: column;
+}
+
+.header-image {
+    width: 60%;
+    height: 200px; /* Adjust the height as needed */
+    background: url('/img/GovtrackLogo.jpg') center/cover no-repeat; /* Replace 'top-image.jpg' with your actual image URL */
+}
+
+.footer-image {
+    width: 20%;
+    height: 200px; /* Adjust the height as needed */
+    background: url('/img/nextGenlogo.jpg') center/cover no-repeat; /* Replace 'bottom-image.jpg' with your actual image URL */
+    margin-top: 20px; /* Push content to the top */
+}
+
+.login-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    text-align: center;
+    margin-top: 75px; /* Half of the header image height to center the container */
+}
+
+h2 {
+    color: #333;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+
