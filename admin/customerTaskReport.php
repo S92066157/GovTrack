@@ -16,7 +16,7 @@ $feedbackDescription = null;
 
 
 if (!$conn) {
-    die("Connection Unsuccessful - " . mysqli_error());
+    die("Connection Unsuccessful - " . mysqli_error($conn));
 }
 
 
