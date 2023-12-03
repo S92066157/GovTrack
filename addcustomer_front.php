@@ -174,7 +174,7 @@ if (!isset($usertype)) {
                             </tr>
                             <tr>
                                 <td>Customer Email: </td>
-                                <td><input type="text" id="email" name="email" required></td>
+                                <td><input type="email" id="email" name="email" required></td>
                             </tr>
                             <tr>
                                 <td>Customer NIC: </td>
