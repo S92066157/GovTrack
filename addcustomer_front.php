@@ -258,27 +258,41 @@ if (!isset($usertype)) {
             return EmailRegex.test(email);
         }
 
-        function confirmButtonClick(event) {
-        var result = confirm("This will save the data and create a new task and cannot be undone.\nAre you sure you want to proceed?");
-        if (!result) {
+function confirmButtonClick(event) {
+    var result = confirm("This will save the data and create a new task and cannot be undone.\nAre you sure you want to proceed?");
+    
+    if (!result) {
+        event.preventDefault();
+    } else {
+        const name = document.getElementById("name").value;
+        const email = document.getElementById("email").value;
+        const NIC = document.getElementById("nic").value;
+        const phoneNumber = document.getElementById("contact").value;
+        const address = document.getElementById("address").value;
+
+        // Check if any of the fields is empty
+        if (name.trim() === '' || email.trim() === '' || NIC.trim() === '' || phoneNumber.trim() === '' || address.trim() === '') {
+            alert("Please fill in all the required fields!");
             event.preventDefault();
         } else {
-            const phoneNumber = document.getElementById("contact").value;
-            const NIC = document.getElementById("nic").value;
-            const email = document.getElementById("email").value;
-
-        if (!validatePhoneNumber(phoneNumber)) {
-            alert("Please enter a valid 10-digit phone number");
-            event.preventDefault();
-        } else if (!validateNIC(NIC)) {
-            alert("Please enter a valid NIC number");
-            event.preventDefault();
-        } else if (!validateEmail(email)) {
-            alert("Please enter a valid Email");
-            event.preventDefault();
+            // Validate phone number, NIC, and email
+            if (!validatePhoneNumber(phoneNumber)) {
+                alert("Please enter a valid 10-digit phone number");
+                event.preventDefault();
+            } 
+            if (!validateNIC(NIC)) {
+                alert("Please enter a valid NIC number");
+                event.preventDefault();
+            } 
+            if (!validateEmail(email)) {
+                alert("Please enter a valid Email");
+                event.preventDefault();
+            }
         }
     }
 }
+
+
 
         fetch('getTaskFront.php')
             .then(response => response.json())
