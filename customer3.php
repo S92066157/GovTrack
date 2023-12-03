@@ -351,7 +351,7 @@ mysqli_close($conn);
         </div>
     </div>
 
-    <script src="javascripts.js"></script>
+    <script src="JS/javascriptsCustomer.js"></script>
 
 </body>
 

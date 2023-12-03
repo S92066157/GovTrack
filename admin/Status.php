@@ -61,7 +61,7 @@ $stmt4->close();
 $onGoingTaskCount = $row4['onGoing'];
 
 
-$sql5 = "SELECT Count(uniqueID) as completed FROM user_registration WHERE taskStatus = 1 AND currentsubTask = 'Done'";
+$sql5 = "SELECT Count(uniqueID) as completed FROM user_registration WHERE taskStatus = 1 AND currentsubTask = 'Done' AND feedbackgiven = 0";
 
 $stmt5 = $conn->prepare($sql5);
 $stmt5->execute();
@@ -81,7 +81,16 @@ $stmt6->close();
 $holdTaskCount = $row6['hold'];
 
 
-$totalTaskCount = $onGoingTaskCount + $completedTaskCount + $holdTaskCount;
+$sql7 = "SELECT Count(uniqueID) as feedbackSubmitted FROM user_registration WHERE taskStatus = 1 AND currentsubTask = 'Done' AND feedbackgiven = 1";
+
+$stmt7 = $conn->prepare($sql7);
+$stmt7->execute();
+$result7 = $stmt7->get_result();
+$row7 = $result7->fetch_assoc();
+$stmt7->close();
+$feedbackGivenTaskCount = $row7['feedbackSubmitted'];
+
+$totalTaskCount = $onGoingTaskCount + $completedTaskCount + $holdTaskCount + $feedbackGivenTaskCount;
 
 
 ?>
@@ -240,6 +249,7 @@ $totalTaskCount = $onGoingTaskCount + $completedTaskCount + $holdTaskCount;
             <td> in Progress </td>
             <td> in Hold</td>
             <td> Completed </td>
+            <td> Feedback Given </td>
             <td> Total </td>
           </tr>
           <tr>
@@ -254,9 +264,11 @@ $totalTaskCount = $onGoingTaskCount + $completedTaskCount + $holdTaskCount;
               <?php echo $completedTaskCount ?>
             </td>
             <td>
+              <?php echo $feedbackGivenTaskCount ?>
+            </td>
+              <td>
               <?php echo $totalTaskCount ?>
             </td>
-
           </tr>
 
 
