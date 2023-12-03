@@ -280,7 +280,7 @@ if (!isset($usertype)) {
     }
 }
 
-        fetch('AJAX/frontoffice/getTaskFront.php')
+        fetch('getTaskFront.php')
             .then(response => response.json())
             .then(data => {
                 var select = document.getElementById('taskID');
