@@ -1,6 +1,6 @@
 <?php
 
-include ('../../connect.php');
+include('../../connect.php');
 
 session_start();
 
@@ -8,78 +8,81 @@ session_start();
 // Check the connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
-}
+} else {
 
-else {
-
-    if(isset($_POST['username'])) {
-
-
-
+    if (isset($_POST['username'])) {
 
         $username = $_POST['username'];
-        
 
-        $sql = "SELECT firstname, lastname, usertype FROM users WHERE username = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("s", $username);
+        if (!empty($username)) {
 
-        // Execute the statement
-        $stmt->execute();
+            $sql = "SELECT firstname, lastname, usertype FROM users WHERE username = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("s", $username);
 
-        // Get the result
-        $result = $stmt->get_result();
+            // Execute the statement
+            $stmt->execute();
 
-        // Fetch the result as an associative array
-        $row = $result->fetch_assoc();
+            // Get the result
+            $result = $stmt->get_result();
 
-        // Close the statement
-        $stmt->close();
+            // Fetch the result as an associative array
+            $row = $result->fetch_assoc();
 
-        $rowCount = $result->num_rows;
+            // Close the statement
+            $stmt->close();
 
-        if($rowCount == 1) {
+            $rowCount = $result->num_rows;
 
-            $usertype = $row['usertype'];
+            if ($rowCount == 1) {
 
-            if($usertype == 'admin'){
+                $usertype = $row['usertype'];
 
-                $response = array(
-                    'message' => "Userdata of administrator account can not be fetch in this form");
+                if ($usertype == 'admin') {
+
+                    $response = array(
+                        'message' => "The userdata of the administrator account cannot be fetched in this form."
+                    );
                     header('Content-Type: application/json');
                     echo json_encode($response);
-            }
-            else {
+                } else {
 
+                    $firstname = $row['firstname'];
+                    $lastname = $row['lastname'];
+                    $usertype = $row['usertype'];
 
-            $firstname = $row['firstname'];
-            $lastname = $row['lastname'];
-            $usertype = $row['usertype'];
-
-            $response = array(
-                'username' => $username,
-                'firstname' => $firstname,
-                'lastname' => $lastname,
-                'usertype' => $usertype);
+                    $response = array(
+                        'username' => $username,
+                        'firstname' => $firstname,
+                        'lastname' => $lastname,
+                        'usertype' => $usertype
+                    );
+                    header('Content-Type: application/json');
+                    echo json_encode($response);
+                }
+            } else {
+                $response = array(
+                    'message' => "User is not existing in the system"
+                );
                 header('Content-Type: application/json');
                 echo json_encode($response);
             }
-        }
-        else {
+        } else {
+
             $response = array(
-                'message' => "User is not existing in the system");
-                header('Content-Type: application/json');
-                echo json_encode($response);
-        }
-	
-	}   
-    
-    else {
-        
-        $response = array(
-            'message' => "Required details not received" );
+                'message' => "Username field is empty. Please try again!"
+            );
             header('Content-Type: application/json');
             echo json_encode($response);
+        }
+
+    } else {
+
+        $response = array(
+            'message' => "Required details not received"
+        );
+        header('Content-Type: application/json');
+        echo json_encode($response);
     }
 }
 

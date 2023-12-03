@@ -309,7 +309,7 @@ mysqli_close($conn);
                                 <select class="form-select"
                                             id="feedbackList" name="feedbackList">
                                             <option selected>Select Feedback (1 to 5)</option>
-                                            <option value="1">Not Satisfied</option>
+                                            <option value="1">Very Dissatisfied</option>
                                             <option value="2">Dissatisfied</option>
                                             <option value="3">Neutral</option>
                                             <option value="4">Satisfied</option>

@@ -294,7 +294,7 @@ function confirmButtonClick(event) {
 
 
 
-        fetch('getTaskFront.php')
+        fetch('AJAX/frontoffice/getTaskFront.php')
             .then(response => response.json())
             .then(data => {
                 var select = document.getElementById('taskID');

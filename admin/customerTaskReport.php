@@ -1,12 +1,18 @@
 <?php
 
-include ('../connect.php');
+include('../connect.php');
 
 session_start();
 
 $uID = $_SESSION['uniqueIDCustomer'];
 $taskName = "";
 $cusName = "";
+$feedback = "";
+
+$isFeedbackGiven = 0;
+$rating = 0;
+$currentSubTask = null;
+$feedbackDescription = null;
 
 
 if (!$conn) {
@@ -15,88 +21,88 @@ if (!$conn) {
 
 
 
-$sql = 'select taskdescription , name from tasks
-        inner join user_registration on user_registration.taskid = tasks.taskid
-        where uniqueID = ?';
+$sql0 = "SELECT tasks.taskdescription, user_registration.name 
+        FROM tasks
+        INNER JOIN user_registration 
+        ON user_registration.taskid = tasks.taskid
+        WHERE user_registration.uniqueID = '$uID'";
+
+$stmt0 = $conn->prepare($sql0);
+$stmt0->execute();
+$result0 = $stmt0->get_result();
+$row0 = $result0->fetch_assoc();
+$stmt0->close();
+$taskName = $row0["taskdescription"];
+$cusName = $row0["name"];
 
 
-$stmt = mysqli_prepare($conn, $sql);
-
-// Bind parameters
-mysqli_stmt_bind_param($stmt, 's', $uID);
-
-// Execute the statement
-mysqli_stmt_execute($stmt);
-
-// Get result set
-$result = mysqli_stmt_get_result($stmt);
-
-
-// Close the statement
-mysqli_stmt_close($stmt);
-
-
-if ($result->num_rows == 1) {
-    while ($row = $result->fetch_assoc()) {
-
-        $taskName = $row["taskdescription"];
-        $cusName = $row["name"];
-
-    }
-} else {
-    $taskName = "ERROR";
-}
-
-// Use prepared statement to avoid SQL injection
-$sql1 = 'SELECT taskdescription, subtaskdescription, taskdate  , ut.empUsername as empName
+$sql1 = "SELECT taskdescription, subtaskdescription, taskdate  , ut.empUsername as empName
                 FROM user_registration ur
                 CROSS JOIN subtasks st  
                 LEFT JOIN usertasks ut 
                     ON ur.uniqueID = ut.uniqueID AND st.subtaskid = ut.subtaskid
                 INNER JOIN tasks 
                     ON tasks.taskid = ur.taskid
-                WHERE ur.uniqueID = ? AND st.maintaskid = ur.taskid';
-
-// Create a prepared statement
-$stmt1 = mysqli_prepare($conn, $sql1);
-
-// Bind parameters
-mysqli_stmt_bind_param($stmt1, 's', $uID);
-
-// Execute the statement
-mysqli_stmt_execute($stmt1);
-
-// Get result set
-$result1 = mysqli_stmt_get_result($stmt1);
+                WHERE ur.uniqueID = '$uID' AND st.maintaskid = ur.taskid;";
 
 
-// Close the statement
-mysqli_stmt_close($stmt1);
+
+$stmt1 = $conn->prepare($sql1);
+$stmt1->execute();
+$result1 = $stmt1->get_result();
+$stmt1->close();
 
 
-// Use prepared statement to avoid SQL injection
 $sql2 = "SELECT errorName , dateAdded , remark , submittedBy from taskerrors
         INNER JOIN ERRORS ON taskerrors.errorID = errors.id
-        WHERE uniqueID = ? ;";
+        WHERE uniqueID = '$uID' ;";
 
-// Create a prepared statement
-$stmt2 = mysqli_prepare($conn, $sql2);
-
-// Bind parameters
-mysqli_stmt_bind_param($stmt2, 's', $uID);
-
-// Execute the statement
-mysqli_stmt_execute($stmt2);
-
-// Get result set
-$result2 = mysqli_stmt_get_result($stmt2);
+$stmt2 = $conn->prepare($sql2);
+$stmt2->execute();
+$result2 = $stmt2->get_result();
+$stmt2->close();
 
 
-// Close the statement
-mysqli_stmt_close($stmt2);
+
+$sql3 = "SELECT currentSubTask , feedbackGiven FROM user_registration WHERE uniqueID = '$uID';";
+
+$stmt3 = $conn->prepare($sql3);
+$stmt3->execute();
+$result3 = $stmt3->get_result();
+$row3 = $result3->fetch_assoc();
+$stmt3->close();
+$isFeedbackGiven = $row3['feedbackGiven'];
+$currentSubTask = $row3['currentSubTask'];
+
+
+
+if ($currentSubTask != "Done") {
+    $feedback = "This task is still in Progress.";
+    $rating = 'None';
+
+} elseif ($currentSubTask == "Done" && $isFeedbackGiven == 0) {
+    $rating = 'None';
+    $feedback = "Feedback is still not provided by Customer";
+} else {
+
+    $sql4 = "SELECT feedback, ratings, feedbackDes FROM customerFeedback cf
+    INNER JOIN feedbackratings fr
+    ON cf.ratings = fr.id
+    WHERE uniqueID = '$uID'";
+
+    $stmt4 = $conn->prepare($sql4);
+    $stmt4->execute();
+    $result4 = $stmt4->get_result();
+    $row4 = $result4->fetch_assoc();
+    $stmt4->close();
+    $feedback = $row4['feedback'];
+    $rating = $row4['ratings'];
+    $feedbackDescription = " - ". $row4['feedbackDes'];
+
+}
+
 
 mysqli_close($conn);
-
 
 ?>
 
@@ -187,6 +193,11 @@ mysqli_close($conn);
             flex-direction: column;
             justify-content: center;
         }
+
+        .MarginLeft{
+            margin-left:3%;
+            font-weight: 600;
+        }
     </style>
 </head>
 
@@ -236,112 +247,114 @@ mysqli_close($conn);
 
     <div class="container-fluid">
 
-    <div>
+        <div>
 
-        <div class="row">
-            <div class="col-sm-12 col-md-12 col-lg-12 my-2">
-                <h2 class="text-white text-center ">Customer task status</h2>
-            </div>
-        </div>
-
-       
-        <div style="background-color: white; border: 3px solid black;">
             <div class="row">
-                <div class="col-sm-12 col-md-12 col-lg-12 cusDetails">
-                    <h3> Customer Name :
-                        <?php echo $cusName; ?>
-                    </h3>
-                    <h3> Reference No :
-                        <?php echo $uID; ?>
-                    </h3>
-                    <hr>
+                <div class="col-sm-12 col-md-12 col-lg-12 my-2">
+                    <h2 class="text-white text-center ">Customer task status</h2>
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-sm-12 col-md-12 col-lg-6">
 
-                    <div class="row">
-                        <h3 class="text-center">Progress of task</h3>
+            <div style="background-color: white; border: 3px solid black;">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-12 cusDetails">
+                        <h3> Customer Name :
+                            <?php echo $cusName; ?>
+                        </h3>
+                        <h3> Reference No :
+                            <?php echo $uID; ?>
+                        </h3>
+                        <hr>
                     </div>
+                </div>
 
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-6">
 
-                    <fieldset>
-                        <legend>
-                            <h3>Task :
-                                <?php echo $taskName; ?>
-                            </h3>
-                        </legend>
+                        <div class="row">
+                            <h3 class="text-center">Progress of task</h3>
+                        </div>
 
-                        <!-- <table border="0" class="table table-bordered"> -->
-                        <table border="0" class="table table-striped">
+                        <fieldset>
+                            <legend>
+                                <h3>Task :
+                                    <?php echo $taskName; ?>
+                                </h3>
+                            </legend>
 
-                            <?php
-                            if ($result1->num_rows > 0) {
+                            <!-- <table border="0" class="table table-bordered"> -->
+                            <table border="0" class="table table-striped">
 
-                                echo ' <tr><th class="text-center col-3">Sub Task</th><th class="text-center col-3" >Date Completed</th><th class="text-center col-3" >EMP Username</th></tr>';
+                                <?php
+                                if ($result1->num_rows > 0) {
 
-                                while ($row = $result1->fetch_assoc()) {
-                                    echo "<tr>";
-                                    echo '<td>' . $row["subtaskdescription"] . "</td>";
-                                    echo '<td class="text-center">' . $row["taskdate"] . "</td>";
-                                    echo '<td class="text-center">' . $row["empName"] . "</td>";
-                                    // Add more td tags for additional columns
-                                    echo "</tr>";
+                                    echo ' <tr><th class="text-center col-3">Sub Task</th><th class="text-center col-3" >Date Completed</th><th class="text-center col-3" >EMP Username</th></tr>';
 
+                                    while ($row = $result1->fetch_assoc()) {
+                                        echo "<tr>";
+                                        echo '<td>' . $row["subtaskdescription"] . "</td>";
+                                        echo '<td class="text-center">' . $row["taskdate"] . "</td>";
+                                        echo '<td class="text-center">' . $row["empName"] . "</td>";
+                                        // Add more td tags for additional columns
+                                        echo "</tr>";
+
+                                    }
+                                } else {
+                                    echo "<tr>  <td colspan='2'>No data found</td></tr>";
                                 }
+                                ?>
+                            </table>
+                        </fieldset>
+
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-6 secondTable">
+
+                        <div class="row">
+                            <h3 class="text-center p-3">Error Details </h3>
+                        </div>
+                        <div class="table2 p-3" style="display: flex; flex-direction: row;">
+                            <br>
+                            <?php
+                            if ($result2->num_rows > 0) {
+
+                                echo '<table border="0" class="table table-striped" style="margin: auto;"> <tr><th class="text-center">Error Name</th> <th class="text-center" >Date Added</th><th class="text-center" >Remark</th><th class="text-center" >EMP Username</th></tr>';
+
+                                while ($row = $result2->fetch_assoc()) {
+                                    echo "<tr>";
+                                    echo "<td>" . $row["errorName"] . "</td>";
+                                    echo '<td class="text-sm-left text-lg-center">' . $row["dateAdded"] . "</td>";
+                                    echo '<td class="text-sm-left text-lg-center">' . $row["remark"] . "</td>";
+                                    echo '<td class="text-sm-left text-lg-center">' . $row["submittedBy"] . "</td>";
+                                    echo "</tr>";
+                                }
+                                echo '</table>';
+
                             } else {
-                                echo "<tr>  <td colspan='2'>No data found</td></tr>";
+                                echo "Currently there is no any error";
                             }
                             ?>
-                        </table>
-                    </fieldset>
 
+                        </div>
+                        <div class="row ">
+                        <h3 class="text-center p-3">Customer Feedback</h3>
+                            <div class="col-sm-11 col-md-11 col-lg-11 mb-3 MarginLeft">
+                                
+                                <?php
+
+                                echo "Ratings( 1 to 5 ) : " . $rating . $feedbackDescription . "<br>";
+                                echo "Feedback : " . $feedback; ?>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
-                <div class="col-sm-12 col-md-12 col-lg-6 secondTable">
-
-
-                    <div class="row">
-                        <h3 class="text-center p-3">Error Details </h3>
-                    </div>
-
-                    <div class="table2 p-3" style="display: flex; flex-direction: row;">
-                        <br>
-
-
-
-
-                        <?php
-                        if ($result2->num_rows > 0) {
-
-                            echo '<table border="0" class="table table-striped" style="margin: auto;"> <tr><th class="text-center">Error Name</th> <th class="text-center" >Date Added</th><th class="text-center" >Remark</th><th class="text-center" >EMP Username</th></tr>';
-
-                            while ($row = $result2->fetch_assoc()) {
-                                echo "<tr>";
-                                echo "<td>" . $row["errorName"] . "</td>";
-                                echo '<td class="text-sm-left text-lg-center">' . $row["dateAdded"] . "</td>";
-                                echo '<td class="text-sm-left text-lg-center">' . $row["remark"] . "</td>";
-                                echo '<td class="text-sm-left text-lg-center">' . $row["submittedBy"] . "</td>";
-                                echo "</tr>";
-                            }
-                            echo '</table>';
-
-                        } else {
-                            echo 'Currently there is no any error';
-                        }
-                        ?>
-
-                    </div>
-
-                   
+            </div>
+            <div class="text-center">
+                <button class="btn btn-primary mt-2" onclick="location.href='customerTask.php'">BACK</button>
             </div>
         </div>
-        </div>
-        <div class="text-center">
-      <button class="btn btn-primary mt-2" onclick="location.href='customerTask.php'" >BACK</button>
-    </div>
-    </div>
-    
+
 </body>
 
 </html>
