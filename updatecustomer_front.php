@@ -52,13 +52,13 @@ mysqli_close($conn);
     <title>Update Customer - Frontoffice</title>
 
     <style>
-        body{
-            height: 600px;
-            width: 1350px;
+       body {
+            height: 99vh;
+            width: 95vw;
             font-weight: bolder;
+            margin: auto;
 
         }
-
         body button {
             background-color: rgb(236, 182, 182);
             border-radius: 5px;

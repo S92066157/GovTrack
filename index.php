@@ -60,9 +60,12 @@ if (isset($_POST['submit'])) {
     <title>Home</title>
 
     <style>
-        body {
-            height: 600px;
-            width: 1350px;
+       body {
+            height: 99vh;
+            width: 95vw;
+            font-weight: bolder;
+            margin: auto;
+
         }
 
         .bodyContent {

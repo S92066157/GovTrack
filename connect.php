@@ -1,6 +1,6 @@
 <?php
 
-$conn = mysqli_connect('localhost','root','ABCD','Govtrackdb') or die('connection failed');
+$conn = mysqli_connect('localhost','root','','Govtrackdb') or die('connection failed');
 
 
 ?>
