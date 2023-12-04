@@ -104,6 +104,8 @@ session_start();
     </div>
   </nav>
 
+  <!--End of the navigation bar-->
+
   <div class="background-container">
     <div class="overlay"></div>
   </div>
