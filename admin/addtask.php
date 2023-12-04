@@ -159,13 +159,12 @@ session_start();
   </div>
 
   <script>
+    var number = 0;
 
     function resetForm() {
 
       document.getElementById('addtask').reset();
     }
-
-    var number = 0;
 
     function addSubtask() {
       // Create a new text input field
@@ -237,6 +236,10 @@ session_start();
         alert('All input fields are required');
         return;
         // Stop execution if any input is empty
+      }
+      else if(number == 0){
+        alert('There must be at least one subtask for the main task.');
+        return;
       }
 
       // Send data to the server using XHR
