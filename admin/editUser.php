@@ -1,8 +1,8 @@
 <?php
 
-include ('../connect.php');
+include('../connect.php');
 
-session_start(); 
+session_start();
 
 
 ?>
@@ -66,7 +66,7 @@ session_start();
 
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
       <a class="navbar-brand">GOVTrack</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
@@ -76,7 +76,7 @@ session_start();
       <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="admindashboard.php" >Home</a>
+            <a class="nav-link" aria-current="page" href="admindashboard.php">Home</a>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
@@ -118,16 +118,14 @@ session_start();
     </div>
 
     <div class="row">
-
-
-      <div class="col-sm-10 col-md-10 col-lg-8 mx-auto text-white mt-2">
+      <div class="col-sm-10 col-md-10 col-lg-8 mx-auto text-white mt-1">
 
         <form id="userReg">
 
           <div class="mb-2">
             <label for="username" class="form-label">Username</label>
             <input type="username" class="form-control" id="username" aria-describedby="usernameHelp" required>
-            <div class="container mt-3">
+            <div class="col-auto mt-2">
               <button type="button" class="btn btn-warning mr-2" onclick="loadUserData()">Load User Data</button>
               <p class="d-inline customMarginLeft" id="userAvailability"></p>
             </div>
@@ -143,11 +141,13 @@ session_start();
             <input type="lName" class="form-control" id="lName" required>
           </div>
 
-          <div class="mb-3">
+          <div class="mb-2">
             <label for="password" class="form-label">Password</label>
             <input type="password" class="form-control" id="password" required>
           </div>
           <div class="col-auto">
+            <button type="button" class="btn btn-warning" id="passwordVisibility" onclick="showPassword()">Show
+              Password</button>
             <span id="passwordhelp" class="form-text text-white">
               Must be 8-20 characters long.
             </span>
@@ -161,21 +161,16 @@ session_start();
           <div class="col-lg-6 mx-auto text-center mt-4 d-flex ">
 
             <button type="button" onclick="formSubmit()" class="btn btn-primary mx-auto d-block">Update User</button>
-           <button type="button" class="btn btn-danger mx-auto d-block" onclick="resetForm()">Clear Form</button>
-            <button type="button" class="btn btn-danger  mx-auto d-block" onclick="loadUserDataDelete()">Delete User</button>
-            <button type="button" class="btn btn-warning  mx-auto d-block" onclick="location.href='users.php'">Back</button>
+            <button type="button" class="btn btn-danger mx-auto d-block" onclick="resetForm()">Clear Form</button>
+            <button type="button" class="btn btn-danger  mx-auto d-block" onclick="loadUserDataDelete()">Delete
+              User</button>
+            <button type="button" class="btn btn-warning  mx-auto d-block"
+              onclick="location.href='users.php'">Back</button>
 
           </div>
-          
-
         </form>
-
-
-
       </div>
     </div>
-
-
   </div>
 
 
@@ -205,7 +200,6 @@ session_start();
             //method to upload data
             updateUser();
           }
-
           else {
             alert("Please select User role");
           }
@@ -214,6 +208,21 @@ session_start();
           alert("Password Must be 8-20 characters long.");
         }
       }
+    }
+
+    //function for show password in plain text 
+    function showPassword() {
+      var passwordField = document.getElementById("password");
+      var btnPasswordVisibility = document.getElementById("passwordVisibility");
+
+      if (passwordField.type === "password") {
+        passwordField.type = "text";
+        btnPasswordVisibility.textContent = "Hide Password";
+      } else {
+        passwordField.type = "password";
+        btnPasswordVisibility.textContent = "Show Password";
+      }
+
     }
 
 
