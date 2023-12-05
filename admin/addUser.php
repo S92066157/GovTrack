@@ -1,8 +1,8 @@
 <?php
 
-include ('../connect.php');
+include('../connect.php');
 
-session_start(); 
+session_start();
 
 
 
@@ -60,14 +60,14 @@ session_start();
     }
 
     .customMarginLeft {
-      margin-left: 2%;
+      margin-left: 1%;
     }
   </style>
 </head>
 
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
       <a class="navbar-brand">GOVTrack</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
@@ -77,7 +77,7 @@ session_start();
       <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="admindashboard.php" >Home</a>
+            <a class="nav-link" aria-current="page" href="admindashboard.php">Home</a>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
@@ -125,7 +125,7 @@ session_start();
 
         <form id="userReg">
 
-        <div class="mb-2">
+          <div class="mb-2">
             <label for="fName" class="form-label">First Name</label>
             <input type="text" class="form-control" id="fName" required>
           </div>
@@ -138,22 +138,29 @@ session_start();
           <div class="mb-2">
             <label for="username" class="form-label">Username</label>
             <input type="username" class="form-control" id="username" aria-describedby="usernameHelp" required>
-            <div class="container-fluid mt-2">
-              
-              <button type="button" class="btn btn-warning" onclick="checkUsernameAvailibility()">Check Availability</button>
-              <p class="d-inline customMarginLeft" id="userAvailability"></p>
-              
+
+            <div class="col-auto mt-2">
+              <button type="button" class="btn btn-warning" onclick="checkUsernameAvailibility()">Check
+                Username Availability</button>
+
+              <span class="form-text text-white">
+                <p class="d-inline customMarginLeft" id="userAvailability"></p>
+              </span>
+
             </div>
 
           </div>
-          <div class="mb-3">
+          <div class="mb-2">
             <label for="password" class="form-label">Password</label>
             <input type="password" class="form-control" id="password" required>
           </div>
           <div class="col-auto">
+            <button type="button" class="btn btn-warning" id="passwordVisibility" onclick="showPassword()">Show
+              Password</button>
             <span id="passwordhelp" class="form-text text-white">
               Must be 8-20 characters long.
             </span>
+
           </div>
           <select class="form-select mt-3" id="userRole" aria-label="Default select" required>
             <option disabled selected>Select User Role</option>
@@ -162,10 +169,11 @@ session_start();
           </select>
 
           <div class="col-lg-6 mx-auto text-center mt-4 d-flex ">
-          <button type="button" onclick="formSubmit()" class="btn btn-primary mx-auto d-block ">Create User</button>
-          <button type="button" class="btn btn-danger mx-auto d-block " onclick="resetForm()">Clear Form</button>
-          <button type="button" class="btn btn-warning mx-auto d-block" onclick="location.href='users.php'">Back</button>
-  </div>
+            <button type="button" onclick="formSubmit()" class="btn btn-primary mx-auto d-block ">Create User</button>
+            <button type="button" class="btn btn-danger mx-auto d-block " onclick="resetForm()">Clear Form</button>
+            <button type="button" class="btn btn-warning mx-auto d-block"
+              onclick="location.href='users.php'">Back</button>
+          </div>
 
         </form>
 
@@ -180,7 +188,7 @@ session_start();
 
   <script>
     function resetForm() {
-      
+
       document.getElementById("userReg").reset();
     }
 
@@ -192,35 +200,51 @@ session_start();
       var userRole = document.getElementById("userRole");
       var UsernameAvailibility = document.getElementById("userAvailability");
 
-      if(firstname.value.length == 0 ||lastname.value.length == 0  ) {
+      if (firstname.value.length == 0 || lastname.value.length == 0) {
 
         alert("First name and Last name required");
       }
       else {
 
-      if(password.value.length >= 8 && password.value.length <= 20) {
-              
-        if(userRole.value == "backoffice" || userRole.value == "frontoffice") {
+        if (password.value.length >= 8 && password.value.length <= 20) {
 
-          if(UsernameAvailibility.innerText == "Username is Available"){
+          if (userRole.value == "backoffice" || userRole.value == "frontoffice") {
+
+            if (UsernameAvailibility.innerText == "Username is Available") {
               //method to upload data
               createNewUser();
-          }
-          
-          else {
-            alert("Please Recheck username");
-          }
-        
-        }
+            }
 
-        else {
-          alert("Please select User role");
+            else {
+              alert("Please Recheck username");
+            }
+
+          }
+
+          else {
+            alert("Please select User role");
+          }
         }
-      }
-      else {
-        alert("Password Must be 8-20 characters long.");
+        else {
+          alert("Password Must be 8-20 characters long.");
+        }
       }
     }
+
+
+    //function for show password in plain text 
+    function showPassword() {
+      var passwordField = document.getElementById("password");
+      var btnPasswordVisibility = document.getElementById("passwordVisibility");
+
+      if (passwordField.type === "password") {
+        passwordField.type = "text";
+        btnPasswordVisibility.textContent = "Hide Password";
+      } else {
+        passwordField.type = "password";
+        btnPasswordVisibility.textContent = "Show Password";
+      }
+
     }
 
 
