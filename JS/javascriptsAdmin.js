@@ -22,10 +22,8 @@ function checkUsernameAvailibility() {
             userStatus.innerText = response.message;
         }
     };
-
-    // Send the request with the encoded parameter
+    
     xhr.send("username=" + encodeURIComponent(username));
-
 }
 
 function createNewUser() {
@@ -37,7 +35,6 @@ function createNewUser() {
     var lastname = document.getElementById("lName").value;
 
     var xhr = new XMLHttpRequest();
-
 
     // Configure it: POST-request to with php file
     xhr.open("POST", "../ajax/admin/createNewUser.php", true);
@@ -58,7 +55,6 @@ function createNewUser() {
         }
     };
 
-    // Send the request with the encoded contactNo parameter
     xhr.send("username=" + encodeURIComponent(username) +
         "&password=" + encodeURIComponent(password) +
         "&userRole=" + encodeURIComponent(userRole) +
@@ -96,13 +92,11 @@ function updateUser() {
         }
     };
 
-    // Send the request with the encoded contactNo parameter
     xhr.send("username=" + encodeURIComponent(username) +
         "&password=" + encodeURIComponent(password) +
         "&userRole=" + encodeURIComponent(userRole) +
         "&firstname=" + encodeURIComponent(firstname) +
         "&lastname=" + encodeURIComponent(lastname));
-
 }
 
 
@@ -110,9 +104,7 @@ function deleteUser() {
 
     var username = document.getElementById('username').value;
 
-
     var xhr = new XMLHttpRequest();
-
 
     // Configure it: POST-request to with php file
     xhr.open("POST", "../ajax/admin/deleteUser.php", true);
@@ -133,9 +125,8 @@ function deleteUser() {
 
         }
     };
-    // Send the request with the encoded contactNo parameter
-    xhr.send("username=" + encodeURIComponent(username));
 
+    xhr.send("username=" + encodeURIComponent(username));
 }
 
 
@@ -172,10 +163,7 @@ function loadUserData() {
 
         }
     };
-
-    // Send the request with the encoded contactNo parameter
     xhr.send("username=" + encodeURIComponent(username));
-
 }
 
 
@@ -188,7 +176,6 @@ function loadUserDataDelete() {
     var lastname = document.getElementById("lName");
 
     var xhr = new XMLHttpRequest();
-
 
     // Configure it: POST-request to with php file
     xhr.open("POST", "../ajax/admin/fetchuserdata.php", true);
@@ -219,11 +206,9 @@ function loadUserDataDelete() {
         }
     };
 
-    // Send the request with the encoded contactNo parameter
     xhr.send("username=" + encodeURIComponent(username));
 
 }
-
 
 
 function retrieveTaskDetails() {
@@ -231,7 +216,6 @@ function retrieveTaskDetails() {
     var uniqueID = document.getElementById('uniqueID').value;
 
     var xhr = new XMLHttpRequest();
-
 
     // Configure it: POST-request to with php file
     xhr.open("POST", "../ajax/admin/checkRef.php", true);
@@ -256,9 +240,7 @@ function retrieveTaskDetails() {
         }
     };
 
-  
     xhr.send("uniqueID=" + encodeURIComponent(uniqueID));
-
 }
 
 
@@ -269,9 +251,7 @@ function retrieveDetailsbyDateFront() {
     var table = document.getElementById('resultTableFront');
     var heading = document.getElementById('frontHeading');
 
-
     var xhr = new XMLHttpRequest();
-
 
     // Configure it: POST-request to with php file
     xhr.open("POST", "../ajax/admin/checkbyDateFront.php", true);
@@ -285,13 +265,13 @@ function retrieveDetailsbyDateFront() {
 
             var response = JSON.parse(xhr.responseText);
 
-            console.log(response);
-
             if (response.status == 0) {
                 alert(response.message);
                 heading.innerText = "";
                 table.innerHTML = "";
             }
+
+
             else {
                 heading.innerText = "Task by frontoffice officers"
                 table.innerHTML = "<th> Customer name </th><th> UniqueID </th><th> Task Description</th> <th> Date </th><th> EMP Username </th>";
@@ -304,7 +284,6 @@ function retrieveDetailsbyDateFront() {
         }
     };
 
-    // Send the request with the encoded contactNo parameter
     xhr.send("date=" + encodeURIComponent(date));
 }
 
@@ -350,9 +329,86 @@ function retrieveDetailsbyDateBack() {
         }
     };
 
-    // Send the request with the encoded contactNo parameter
     xhr.send("date=" + encodeURIComponent(date));
+}
 
+
+function loadUsernames() {
+
+    var usertype = document.getElementById('usertype').value;
+    var username = document.getElementById('username');
+
+    var xhr = new XMLHttpRequest();
+
+
+    // Configure it: POST-request to with php file
+    xhr.open("POST", "../ajax/admin/getUsernames.php", true);
+
+    // Set the Content-Type header for POST requests
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+    // Define the onreadystatechange callback function
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+
+            var response = JSON.parse(xhr.responseText);
+            username.innerHTML = '<option value="0" selected disabled>Choose User Name</option>';
+
+            // Loop through the data and create option elements
+            response.forEach(item => {
+                var option = document.createElement('option');
+                option.value = item.username;
+                option.textContent = item.username;
+                username.appendChild(option);
+            });
+
+        }
+    };
+
+    xhr.send("usertype=" + encodeURIComponent(usertype));
+}
+
+function loadtaskbyUser() {
+
+    var username = document.getElementById('username').value;
+    var table = document.getElementById('resultTable');
+    var heading = document.getElementById('heading');
+
+    var xhr = new XMLHttpRequest();
+
+    // Configure it: POST-request to with php file
+    xhr.open("POST", "../ajax/admin/checkbyUsername.php", true);
+
+    // Set the Content-Type header for POST requests
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+    // Define the onreadystatechange callback function
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+
+            var response = JSON.parse(xhr.responseText);
+
+            // console.log(response);
+
+            if (response.status == 0) {
+                alert(response.message);
+                heading.innerText = "No Result";
+                table.innerHTML = "";
+            }
+            else {
+                heading.innerText = "Task by " + username;
+                table.innerHTML = "<th> Customer name </th><th> UniqueID </th><th> Task Description</th> <th> Date </th><th> EMP Username </th>";
+
+                response.forEach(function (item) {
+                    table.innerHTML += '<tr><td>' + item.name + '</td><td>' + item.uID + '</td><td>' + item.taskdescription + '</td><td>' + item.taskdate + '</td><td>' + item.empName + '</td><tr>';
+                });
+
+            }
+
+        }
+    };
+   
+    xhr.send("username=" + encodeURIComponent(username));
 }
 
 
