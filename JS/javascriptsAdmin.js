@@ -126,7 +126,7 @@ function deleteUser() {
         }
     };
 
-    xhr.send("username=" + encodeURIComponent(username));
+    xhr.send("username=" + encodeURIComponent(username.trim()));
 }
 
 
@@ -163,7 +163,7 @@ function loadUserData() {
 
         }
     };
-    xhr.send("username=" + encodeURIComponent(username));
+    xhr.send("username=" + encodeURIComponent(username.trim()));
 }
 
 
@@ -206,7 +206,7 @@ function loadUserDataDelete() {
         }
     };
 
-    xhr.send("username=" + encodeURIComponent(username));
+    xhr.send("username=" + encodeURIComponent(username.trim()));
 
 }
 
@@ -240,7 +240,7 @@ function retrieveTaskDetails() {
         }
     };
 
-    xhr.send("uniqueID=" + encodeURIComponent(uniqueID));
+    xhr.send("uniqueID=" + encodeURIComponent(uniqueID.trim()));
 }
 
 
