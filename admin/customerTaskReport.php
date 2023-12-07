@@ -212,7 +212,7 @@ mysqli_close($conn);
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="admindashboard.php">Home</a>
+                        <a class="nav-link" aria-current="page" href="adminDashboard.php">Home</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
@@ -220,18 +220,18 @@ mysqli_close($conn);
                             Users
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <li><a class="dropdown-item" href="adduser.php">Add New User</a></li>
-                            <li><a class="dropdown-item" href="edituser.php">Edit Existing User</a></li>
+                            <li><a class="dropdown-item" href="addUser.php">Add New User</a></li>
+                            <li><a class="dropdown-item" href="editUser.php">Edit Existing User</a></li>
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="tasks.php">Tasks</a>
+                        <a class="nav-link" href="Tasks.php">Tasks</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" href="reports.php">Reports</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="status.php">System Status</a>
+                        <a class="nav-link" href="Status.php">System Status</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="../logout.php">Logout</a>

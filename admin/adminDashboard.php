@@ -83,18 +83,18 @@ session_start();
               Users
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-              <li><a class="dropdown-item" href="adduser.php">Add New User</a></li>
-              <li><a class="dropdown-item" href="edituser.php">Edit Existing User</a></li>
+              <li><a class="dropdown-item" href="addUser.php">Add New User</a></li>
+              <li><a class="dropdown-item" href="editUser.php">Edit Existing User</a></li>
             </ul>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="tasks.php">Tasks</a>
+            <a class="nav-link" href="Tasks.php">Tasks</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="reports.php">Reports</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="status.php">System Status</a>
+            <a class="nav-link" href="Status.php">System Status</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="../logout.php">Logout</a>
@@ -129,7 +129,7 @@ session_start();
 
 
       <div class="col-sm-8 col-xs-8 col-md-4 col-lg-4 tasks mx-auto text-center ">
-        <a href="tasks.php">
+        <a href="Tasks.php">
           <div>
             <img src="img/tasks.svg" class="my-2" height="100px" alt="">
             <h1>Tasks</h1>
@@ -150,7 +150,7 @@ session_start();
       </div>
 
       <div class="col-sm-8 col-xs-8 col-md-4 col-lg-4  status mx-auto text-center">
-        <a href="status.php">
+        <a href="Status.php">
           <div>
             <img src="img/status.svg" class="my-2" height="100px" alt="">
             <h1>System Status</h1>
