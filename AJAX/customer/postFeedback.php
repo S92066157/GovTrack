@@ -21,7 +21,7 @@ else {
         $rating = $_POST['rating'];
         $feedback = $_POST['feedback'];
 
-        $sql0 = "INSERT INTO customerfeedback ( uniqueID, ratings, feedback) VALUES ( '$cusUID', '$rating', '$feedback');";
+        $sql0 = "INSERT INTO customerFeedback ( uniqueID, ratings, feedback) VALUES ( '$cusUID', '$rating', '$feedback');";
         $stmt0 = $conn->prepare($sql0);
 
         $sql1 = "UPDATE user_registration SET feedbackGiven = 1 WHERE uniqueID ='$cusUID';";

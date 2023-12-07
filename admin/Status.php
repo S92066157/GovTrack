@@ -1,8 +1,8 @@
 <?php
 
-include ('../connect.php');
+include('../connect.php');
 
-session_start(); 
+session_start();
 
 
 
@@ -61,7 +61,7 @@ $stmt4->close();
 $onGoingTaskCount = $row4['onGoing'];
 
 
-$sql5 = "SELECT Count(uniqueID) as completed FROM user_registration WHERE taskStatus = 1 AND currentsubTask = 'Done' AND feedbackgiven = 0";
+$sql5 = "SELECT Count(uniqueID) as completed FROM user_registration WHERE taskStatus = 1 AND currentsubTask = 'Done'";
 
 $stmt5 = $conn->prepare($sql5);
 $stmt5->execute();
@@ -90,7 +90,7 @@ $row7 = $result7->fetch_assoc();
 $stmt7->close();
 $feedbackGivenTaskCount = $row7['feedbackSubmitted'];
 
-$totalTaskCount = $onGoingTaskCount + $completedTaskCount + $holdTaskCount + $feedbackGivenTaskCount;
+$totalTaskCount = $onGoingTaskCount + $completedTaskCount + $holdTaskCount;
 
 
 ?>
@@ -104,7 +104,7 @@ $totalTaskCount = $onGoingTaskCount + $completedTaskCount + $holdTaskCount + $fe
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Task Management</title>
+  <title>System Status</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
@@ -231,7 +231,7 @@ $totalTaskCount = $onGoingTaskCount + $completedTaskCount + $holdTaskCount + $fe
           <tr>
             <td> Active Users Count </td>
             <td>
-              <?php echo $activeFrontofficeCount?>
+              <?php echo $activeFrontofficeCount ?>
             </td>
             <td>
               <?php echo $activeBackofficeCount ?>
@@ -266,16 +266,14 @@ $totalTaskCount = $onGoingTaskCount + $completedTaskCount + $holdTaskCount + $fe
             <td>
               <?php echo $feedbackGivenTaskCount ?>
             </td>
-              <td>
+            <td>
               <?php echo $totalTaskCount ?>
             </td>
           </tr>
-
-
-
-
         </table>
-
+        <p class="text-white">Note -- The total task count does not include tasks for which feedback has been given.
+        </p>
+        <p class="text-white">Total Task Count = in Progress + in Hold + Completed</p>
       </div>
     </div>
 

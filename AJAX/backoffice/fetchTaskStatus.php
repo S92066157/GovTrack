@@ -48,7 +48,7 @@ if ($mainTaskStatus == 1) {
     else {
 
 
-                $sql1 = "SELECT errorID , isErrorOccured , remark from taskerrors WHERE uniqueID = '$uID';";
+                $sql1 = "SELECT errorID , isErrorOccured , remark from taskErrors WHERE uniqueID = '$uID';";
 
                 $resultErrors = mysqli_query($conn, $sql1);
 

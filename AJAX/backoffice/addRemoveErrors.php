@@ -69,7 +69,7 @@ if (isset($_POST['error1']) && isset($_POST['error2']) && isset($_POST['error3']
 
         if ($textError1 == 1) {
 
-            $sqlExisting1 = "SELECT * FROM taskerrors WHERE uniqueID = '$uID' AND errorID  = '$Error1';";
+            $sqlExisting1 = "SELECT * FROM taskErrors WHERE uniqueID = '$uID' AND errorID  = '$Error1';";
 
 
             $resultExisting1 = mysqli_query($conn, $sqlExisting1);
@@ -79,7 +79,7 @@ if (isset($_POST['error1']) && isset($_POST['error2']) && isset($_POST['error3']
             } else {
 
                 //added date manually due to online database
-                $sql = "INSERT INTO taskerrors(uniqueID, errorID, isErrorOccured, submittedBy, remark , dateAdded) VALUES (?, ?, ?, ?, ?, ?)";
+                $sql = "INSERT INTO taskErrors(uniqueID, errorID, isErrorOccured, submittedBy, remark , dateAdded) VALUES (?, ?, ?, ?, ?, ?)";
                 $stmt = $conn->prepare($sql);
                 $stmt->bind_param("ssisss", $uID, $Error1, $textError1, $user, $error1Remark, $date);
 
@@ -91,7 +91,7 @@ if (isset($_POST['error1']) && isset($_POST['error2']) && isset($_POST['error3']
             }
         } else {
 
-            $sql3 = "DELETE FROM taskerrors WHERE uniqueID = ? AND errorID = ?;";
+            $sql3 = "DELETE FROM taskErrors WHERE uniqueID = ? AND errorID = ?;";
             $stmt3 = $conn->prepare($sql3);
             $stmt3->bind_param("si", $uID, $Error1);
 
@@ -105,7 +105,7 @@ if (isset($_POST['error1']) && isset($_POST['error2']) && isset($_POST['error3']
 
         if ($textError2 == 1) {
 
-            $sqlExisting2 = "SELECT * FROM taskerrors WHERE uniqueID = '$uID' AND errorID  = '$Error2';";
+            $sqlExisting2 = "SELECT * FROM taskErrors WHERE uniqueID = '$uID' AND errorID  = '$Error2';";
 
 
             $resultExisting2 = mysqli_query($conn, $sqlExisting2);
@@ -115,7 +115,7 @@ if (isset($_POST['error1']) && isset($_POST['error2']) && isset($_POST['error3']
             } else {
 
                 //added date manually due to online database
-                $sql1 = "INSERT INTO taskerrors(uniqueID, errorID, isErrorOccured , submittedBy, remark, dateAdded) VALUES (?, ?, ?, ?, ?, ?)";
+                $sql1 = "INSERT INTO taskErrors(uniqueID, errorID, isErrorOccured , submittedBy, remark, dateAdded) VALUES (?, ?, ?, ?, ?, ?)";
                 $stmt1 = $conn->prepare($sql1);
                 $stmt1->bind_param("ssisss", $uID, $Error2, $textError2, $user, $error2Remark, $date);
 
@@ -127,7 +127,7 @@ if (isset($_POST['error1']) && isset($_POST['error2']) && isset($_POST['error3']
             }
 
         } else {
-            $sql4 = "DELETE FROM taskerrors WHERE uniqueID = ? AND errorID = ?;";
+            $sql4 = "DELETE FROM taskErrors WHERE uniqueID = ? AND errorID = ?;";
             $stmt4 = $conn->prepare($sql4);
             $stmt4->bind_param("si", $uID, $Error2);
 
@@ -140,7 +140,7 @@ if (isset($_POST['error1']) && isset($_POST['error2']) && isset($_POST['error3']
 
         if ($textError3 == 1) {
 
-            $sqlExisting3 = "SELECT * FROM taskerrors WHERE uniqueID = '$uID' AND errorID  = '$Error3';";
+            $sqlExisting3 = "SELECT * FROM taskErrors WHERE uniqueID = '$uID' AND errorID  = '$Error3';";
 
 
             $resultExisting3 = mysqli_query($conn, $sqlExisting3);
@@ -150,9 +150,9 @@ if (isset($_POST['error1']) && isset($_POST['error2']) && isset($_POST['error3']
             } else {
 
                 //added date manually due to online database
-                $sql2 = "INSERT INTO taskerrors(uniqueID, errorID, isErrorOccured, submittedBy, remark, dateAdded) VALUES (?, ?, ?, ?, ?, ?)";
+                $sql2 = "INSERT INTO taskErrors(uniqueID, errorID, isErrorOccured, submittedBy, remark, dateAdded) VALUES (?, ?, ?, ?, ?, ?)";
                 $stmt2 = $conn->prepare($sql2);
-                $stmt2->bind_param("ssiss", $uID, $Error3, $textError3, $user, $error3Remark, $date);
+                $stmt2->bind_param("ssisss", $uID, $Error3, $textError3, $user, $error3Remark, $date);
 
                 if ($stmt2->execute()) {
                     echo "Other Error Submitted\n";
@@ -162,7 +162,7 @@ if (isset($_POST['error1']) && isset($_POST['error2']) && isset($_POST['error3']
 
             }
         } else {
-            $sql5 = "DELETE FROM taskerrors WHERE uniqueID = ? AND errorID = ?;";
+            $sql5 = "DELETE FROM taskErrors WHERE uniqueID = ? AND errorID = ?;";
             $stmt5 = $conn->prepare($sql5);
             $stmt5->bind_param("si", $uID, $Error3);
 

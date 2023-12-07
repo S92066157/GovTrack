@@ -86,7 +86,7 @@ if ($currentSubTask != "Done") {
 } else {
 
     $sql4 = "SELECT feedback, ratings, feedbackDes FROM customerFeedback cf
-    INNER JOIN feedbackratings fr
+    INNER JOIN feedbackRatings fr
     ON cf.ratings = fr.id
     WHERE uniqueID = '$uID'";
 

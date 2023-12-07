@@ -38,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // Perform validation if necessary.
 
     // Insert data into the database.
-    $conn = new mysqli("localhost", "root", "ABCD", "govtrackdb");
+   
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
