@@ -53,9 +53,9 @@ $result1 = $stmt1->get_result();
 $stmt1->close();
 
 
-$sql2 = "SELECT errorName , dateAdded , remark , submittedBy from taskerrors
-        INNER JOIN ERRORS ON taskerrors.errorID = errors.id
-        WHERE uniqueID = '$uID' ;";
+$sql2 = "SELECT errorName , dateAdded , remark, submittedBy from taskErrors
+        INNER JOIN errors ON taskErrors.errorID = errors.id
+        WHERE uniqueID = '$uID';";
 
 $stmt2 = $conn->prepare($sql2);
 $stmt2->execute();

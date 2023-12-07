@@ -10,28 +10,17 @@ $cusName = "";
 
 
 if (!$conn) {
-    die("Connection Unsuccessful - " . mysqli_error());
+    die("Connection Unsuccessful - " . mysqli_error($conn));
 }
 
-$sql = 'select taskdescription , name from tasks
-        inner join user_registration on user_registration.taskid = tasks.taskid
-        where uniqueID = ?';
+$sql = "SELECT taskdescription , name FROM tasks
+        INNER JOIN user_registration ON user_registration.taskid = tasks.taskid
+        WHERE uniqueID = '$uID'";
 
 
-$stmt = mysqli_prepare($conn, $sql);
-
-// Bind parameters
-mysqli_stmt_bind_param($stmt, 's', $uID);
-
-// Execute the statement
-mysqli_stmt_execute($stmt);
-
-// Get result set
-$result = mysqli_stmt_get_result($stmt);
-
-
-// Close the statement
-mysqli_stmt_close($stmt);
+$stmt = $conn->prepare($sql);
+$stmt->execute();
+$result = $stmt->get_result();
 
 
 if ($result->num_rows == 1) {
@@ -46,54 +35,35 @@ if ($result->num_rows == 1) {
 }
 
 // Use prepared statement to avoid SQL injection
-$sql1 = 'SELECT taskdescription, subtaskdescription, taskdate 
+$sql1 = "SELECT taskdescription, subtaskdescription, taskdate 
                 FROM user_registration ur
                 CROSS JOIN subtasks st  
                 LEFT JOIN usertasks ut 
                     ON ur.uniqueID = ut.uniqueID AND st.subtaskid = ut.subtaskid
                 INNER JOIN tasks 
                     ON tasks.taskid = ur.taskid
-                WHERE ur.uniqueID = ? AND st.maintaskid = ur.taskid';
-
-// Create a prepared statement
-$stmt1 = mysqli_prepare($conn, $sql1);
-
-// Bind parameters
-mysqli_stmt_bind_param($stmt1, 's', $uID);
-
-// Execute the statement
-mysqli_stmt_execute($stmt1);
-
-// Get result set
-$result1 = mysqli_stmt_get_result($stmt1);
+                WHERE ur.uniqueID = '$uID' AND st.maintaskid = ur.taskid;";
 
 
-// Close the statement
-mysqli_stmt_close($stmt1);
+$stmt1 = $conn->prepare($sql1);
+$stmt1->execute();
+$result1 = $stmt1->get_result();
 
 
 // Use prepared statement to avoid SQL injection
-$sql2 = "SELECT errorName , dateAdded , remark from taskerrors
-        INNER JOIN ERRORS ON taskerrors.errorID = errors.id
-        WHERE uniqueID = ? ;";
-
-// Create a prepared statement
-$stmt2 = mysqli_prepare($conn, $sql2);
-
-// Bind parameters
-mysqli_stmt_bind_param($stmt2, 's', $uID);
-
-// Execute the statement
-mysqli_stmt_execute($stmt2);
-
-// Get result set
-$result2 = mysqli_stmt_get_result($stmt2);
+$sql2 = "SELECT errorName , dateAdded , remark from taskErrors
+        INNER JOIN errors ON taskErrors.errorID = errors.id
+        WHERE uniqueID = '$uID';";
 
 
-// Close the statement
-mysqli_stmt_close($stmt2);
+$stmt2 = $conn->prepare($sql2);
+$stmt2->execute();
+$result2 = $stmt2->get_result();
 
-mysqli_close($conn);
+$stmt->close();
+$stmt1->close();
+$stmt2->close();
+$conn->close();
 
 
 ?>
@@ -246,22 +216,22 @@ mysqli_close($conn);
                             <table border="0" class="table table-striped">
 
                                 <?php
-                            if ($result1->num_rows > 0) {
+                                if ($result1->num_rows > 0) {
 
-                                echo ' <tr><th class="text-center col-3">Sub Task</th><th class="text-center col-3" >Date Completed</th></tr>';
+                                    echo ' <tr><th class="text-center col-3">Sub Task</th><th class="text-center col-3" >Date Completed</th></tr>';
 
-                                while ($row = $result1->fetch_assoc()) {
-                                    echo "<tr>";
-                                    echo '<td>' . $row["subtaskdescription"] . "</td>";
-                                    echo '<td class="text-center">' . $row["taskdate"] . "</td>";
-                                    // Add more td tags for additional columns
-                                    echo "</tr>";
+                                    while ($row = $result1->fetch_assoc()) {
+                                        echo "<tr>";
+                                        echo '<td>' . $row["subtaskdescription"] . "</td>";
+                                        echo '<td class="text-center">' . $row["taskdate"] . "</td>";
+                                        // Add more td tags for additional columns
+                                        echo "</tr>";
 
+                                    }
+                                } else {
+                                    echo "<tr>  <td colspan='2'>No data found</td></tr>";
                                 }
-                            } else {
-                                echo "<tr>  <td colspan='2'>No data found</td></tr>";
-                            }
-                            ?>
+                                ?>
                             </table>
                         </fieldset>
 
@@ -277,24 +247,24 @@ mysqli_close($conn);
                             <br>
 
                             <?php
-                        if ($result2->num_rows > 0) {
+                            if ($result2->num_rows > 0) {
 
-                            echo '<table border="0" class="table table-striped" style="margin: auto;"> <tr><th class="text-center">Error Name</th> <th class="text-center" >Date Added</th><th class="text-center" >Remark</th></tr>';
+                                echo '<table border="0" class="table table-striped" style="margin: auto;"> <tr><th class="text-center">Error Name</th> <th class="text-center" >Date Added</th><th class="text-center" >Remark</th></tr>';
 
-                            while ($row = $result2->fetch_assoc()) {
-                                echo "<tr>";
-                                echo "<td>" . $row["errorName"] . "</td>";
-                                echo '<td class="text-sm-left text-lg-center">' . $row["dateAdded"] . "</td>";
-                                echo '<td class="text-sm-left text-lg-center">' . $row["remark"] . "</td>";
+                                while ($row = $result2->fetch_assoc()) {
+                                    echo "<tr>";
+                                    echo "<td>" . $row["errorName"] . "</td>";
+                                    echo '<td class="text-sm-left text-lg-center">' . $row["dateAdded"] . "</td>";
+                                    echo '<td class="text-sm-left text-lg-center">' . $row["remark"] . "</td>";
 
-                                echo "</tr>";
+                                    echo "</tr>";
+                                }
+                                echo '</table>';
+
+                            } else {
+                                echo 'Currently there is no any error';
                             }
-                            echo '</table>';
-
-                        } else {
-                            echo 'Currently there is no any error';
-                        }
-                        ?>
+                            ?>
 
                         </div>
                     </div>
@@ -306,22 +276,20 @@ mysqli_close($conn);
 
                         <div class="row">
                             <div class="col-sm-10 col-md-10 col-lg-8 mb-2 text-bolder marginLeft">
-                                <select class="form-select"
-                                            id="feedbackList" name="feedbackList">
-                                            <option selected>Select Feedback (1 to 5)</option>
-                                            <option value="1">Very Dissatisfied</option>
-                                            <option value="2">Dissatisfied</option>
-                                            <option value="3">Neutral</option>
-                                            <option value="4">Satisfied</option>
-                                            <option value="5">Very Satisfied</option>
-                                        </select>
+                                <select class="form-select" id="feedbackList" name="feedbackList">
+                                    <option selected>Select Feedback (1 to 5)</option>
+                                    <option value="1">Very Dissatisfied</option>
+                                    <option value="2">Dissatisfied</option>
+                                    <option value="3">Neutral</option>
+                                    <option value="4">Satisfied</option>
+                                    <option value="5">Very Satisfied</option>
+                                </select>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-10  col-md-10 col-lg-8 marginLeft">
-                                <textarea name="feedbackText" id="feedbackText" rows="10"
-                                class="form-control"
-                                placeholder="Enter your feedback here"></textarea>
+                                <textarea name="feedbackText" id="feedbackText" rows="10" class="form-control"
+                                    placeholder="Enter your feedback here"></textarea>
                             </div>
                         </div>
 
