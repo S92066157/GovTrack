@@ -30,6 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $date = date('Y-m-d');
     $nic = $_POST["nic"];
     $uniqueID = $taskID . "-" . $nic . "-" . $date;
+    $subTaskid = 1;
 
     // Insert data into the database.   
 
@@ -37,23 +38,45 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         die("Connection failed: " . $conn->connect_error);
     }
 
-    $sql = "INSERT INTO `user_registration` ( uniqueID, name, NIC, email, contact, address, taskID, empUsername, dateAdded) VALUES (?,?,?,?,?,?,?,?,?)";
+    //alternative query for trigger - online database 
+    $sql0 = "SELECT MAX(subTaskID) as subTaskCount FROM subtasks WHERE mainTaskID = '$taskID';";
+    $stmt0 = $conn->prepare($sql0);
+    $stmt0->execute();
+    $result0 = $stmt0->get_result();
+    $row0 = $result0->fetch_assoc();
+    $stmt0->close();
+    $subTaskCount = $row0['subTaskCount'];
+
+    $taskStatus = 1;
+    $feedbackGiven = 0;
+    $currentsubTask = 2;
 
 
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sssssssss", $uniqueID, $name, $nic, $email, $contact, $address, $taskID, $user, $date);
+    $sql1 = "INSERT INTO user_registration ( uniqueID, name, NIC, email, contact, address, taskID, empUsername, dateAdded, subtaskCount, taskStatus, feedbackGiven, currentsubTask)
+     VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
-    if ($stmt->execute()) {
+    $stmt1 = $conn->prepare($sql1);
+    $stmt1->bind_param("sssssssssssss", $uniqueID, $name, $nic, $email, $contact, $address, $taskID, $user, $date, $subTaskCount, $taskStatus, $feedbackGiven, $currentsubTask );
+
+    //alternative query for trigger - online database 
+    $sql2 = "INSERT INTO usertasks (uniqueID,taskID, subTaskID, taskDate , empusername)
+    VALUES( ?,?,?,?,?);";
+
+    $stmt2 = $conn->prepare($sql2);
+    $stmt2->bind_param("sssss", $uniqueID, $taskID, $subTaskid , $date, $user);
+
+    if ($stmt1->execute() && $stmt2->execute()) {
         // Registration successful.
         $message[] = 'Customer details have been successfully added.';
     } else {
         // Registration failed.
 
-        $message[] = "Error: " . $stmt->error;
+        $message[] = "Error: " . $stmt1->error."\n".$stmt2->error;
 
     }
 
-    $stmt->close();
+    $stmt1->close();
+    $stmt2->close();
     $conn->close();
 }
 ?>

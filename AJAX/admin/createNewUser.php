@@ -19,9 +19,10 @@ if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['user
     $userRole = $_POST['userRole'];
     $firstname = $_POST['firstname'];
     $lastname = $_POST['lastname'];
+    $isbeingUsed = 0;
     
 
-   $sql = "INSERT INTO users (username, password, usertype, firstname, lastname) VALUES ('$username', '$password', '$userRole' , '$firstname', '$lastname')";
+   $sql = "INSERT INTO users (username, password, usertype, firstname, lastname , isbeingUsed) VALUES ('$username', '$password', '$userRole' , '$firstname', '$lastname' , '$isbeingUsed')";
 
    $stmt = $conn->prepare($sql);
 
