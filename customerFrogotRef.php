@@ -10,7 +10,7 @@
         body {
             height: 90vh;
             width: 90vw;
-            background-color: lightblue;
+            background-color: rgb(222, 217, 255);
             margin: auto;
         }
 
@@ -48,6 +48,9 @@
             height: 10%;
             margin: 10px auto;
             text-align: center;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 5px;
 
         }
 
@@ -61,11 +64,19 @@
             border: none;
             box-shadow: none;
             border: 1px solid black;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 5px;
         }
 
-        h2, h3 {
+        h2,
+        h3 {
             text-align: center;
             margin: 5px;
+        }
+
+        button:hover {
+            background-color: lightgray;
         }
     </style>
 </head>
@@ -75,9 +86,10 @@
     <div class="bodyContent">
 
         <div class="heading">
-            <p style="text-align: center; font-weight: bold; font-size: 80px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; ">
+            <p
+                style="text-align: center; font-weight: bold; font-size: 80px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; ">
                 GovTrack</p>
-        
+
             <form action="" method="post">
                 <div class="content">
 
@@ -90,13 +102,14 @@
 
                     <button type="button" onclick="location.href='customer.php'" class="btn"> Back to Home</button>
 
-                    <h2 id="refNumber">  </h2>
+                    <h2 id="refNumber"> </h2>
 
-                    <button type="button" id="btnCopy" name="btnCopy" onclick="copyText()" class="btn" style="display: none;">Copy Reference</button>
+                    <button type="button" id="btnCopy" name="btnCopy" onclick="copyText()" class="btn"
+                        style="display: none;">Copy Reference</button>
                 </div>
-                          
+
             </form>
-            
+
 
         </div>
         <h3> Enter NIC and Contact number that you have provide during registration and click on Submit button </h3>

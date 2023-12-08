@@ -21,7 +21,7 @@ $uID = $_SESSION['uniqueID'];
         body {
             height: 90vh;
             width: 90vw;
-            background-color: lightblue;
+            background-color: rgb(222, 217, 255);
             margin: auto;
         }
 
@@ -57,7 +57,9 @@ $uID = $_SESSION['uniqueID'];
             height: 10%;
             margin: 10px auto;
             text-align: center;
-
+            font-size: 16px;
+            font-weight: bold;
+            padding: 5px;
         }
 
         button {
@@ -70,11 +72,18 @@ $uID = $_SESSION['uniqueID'];
             border: none;
             box-shadow: none;
             border: 1px solid black;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 5px;
         }
 
-        h4 {
+        h3 {
             text-align: center;
             margin: 5px;
+        }
+
+        button:hover {
+            background-color: lightgray;
         }
     </style>
 </head>
@@ -93,11 +102,13 @@ $uID = $_SESSION['uniqueID'];
 
                     <input type="text" id="contactNo" name="contactNo" placeholder="Contact Number" required>
 
-                    <h4>Entered Reference NO : <?php echo $uID; ?></h4>
+                    <h3>Entered Reference NO :
+                        <?php echo $uID; ?>
+                    </h3>
 
                     <button type="button" onclick="inputValidation()" class="btn"> SUBMIT </button>
 
-                    <h4> Enter Contact number and SUBMIT </h4>
+                    <h3> Enter Contact number and SUBMIT </h3>
 
                     <button type="submit" onclick="location.href='customer.php'" class="btn"> Back to Home</button>
 
@@ -112,18 +123,18 @@ $uID = $_SESSION['uniqueID'];
 
             var contactNumber = document.getElementById('contactNo').value;
 
-            if(contactNumber == "") {
+            if (contactNumber == "") {
 
                 alert("Contact Number connot be empty.\nPlease try again !");
             }
             else {
-                
+
                 checkContactDetails();
             }
         }
     </script>
 
-<script src="JS/javascriptsCustomer.js"></script>
+    <script src="JS/javascriptsCustomer.js"></script>
 </body>
 
 </html>

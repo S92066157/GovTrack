@@ -33,7 +33,7 @@ if(isset($_POST['submit'])){
         body{
             height: 90vh;
             width: 90vw;
-            background-color: lightblue;
+            background-color: rgb(222, 217, 255);
             margin: auto;
         }
 
@@ -70,6 +70,9 @@ if(isset($_POST['submit'])){
             height: 10%;
             margin: 10px auto;
             text-align: center;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 5px;
 
         }
         button  {
@@ -82,9 +85,16 @@ if(isset($_POST['submit'])){
             border: none;
             box-shadow: none;
             border: 1px solid black;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 5px;
+        }
+
+        button:hover{
+            background-color: lightgray;
         }
         
-        h4 {
+        h3 {
             text-align: center;
             margin: 5px;
         }
@@ -128,8 +138,8 @@ if(isset($_POST['submit'])){
 
             
         </div>
-                    <h4> Enter Reference number of your task and click on Submit button </h4>
-                        <h4> Click on Frogot reference if you lost your reference number </h4>
+                    <h3> Enter Reference number of your task and click on Submit button </h3>
+                        <h3> Click on Frogot reference if you lost your reference number </h3>
 			
     </div>
 </body>
