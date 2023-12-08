@@ -91,7 +91,7 @@ if ($currentSubTask != "Done") {
     $feedback = "Feedback is still not provided by Customer";
 } else {
 
-    $sql4 = "SELECT feedback, ratings, feedbackDes FROM customerFeedback cf
+    $sql4 = "SELECT feedback, ratings, feedbackDes, datePosted FROM customerFeedback cf
     INNER JOIN feedbackRatings fr
     ON cf.ratings = fr.id
     WHERE uniqueID = '$uID'";
@@ -103,6 +103,7 @@ if ($currentSubTask != "Done") {
     $stmt4->close();
     $feedback = $row4['feedback'];
     $rating = $row4['ratings'];
+    $datePosted = $row4['datePosted'];
     $feedbackDescription = " - ". $row4['feedbackDes'];
 
 }
@@ -349,6 +350,7 @@ mysqli_close($conn);
                                 <?php
 
                                 echo "Ratings( 1 to 5 ) : " . $rating . $feedbackDescription . "<br>";
+                                echo "Posted Date : " . $datePosted. "<br>";
                                 echo "Feedback : " . $feedback; ?>
                             </div>
                         </div>
