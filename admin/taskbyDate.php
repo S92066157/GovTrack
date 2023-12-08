@@ -4,6 +4,12 @@ include ('../connect.php');
 
 session_start(); 
 
+$usertype = $_SESSION['usertype'];
+
+if (!isset($usertype) || $usertype != 'admin') {
+  header('location:adminlogin.php');
+}
+
 ?>
 
 <!DOCTYPE html>

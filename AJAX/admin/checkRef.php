@@ -15,7 +15,7 @@ else {
     if(isset($_POST['uniqueID'])) {
         $uID = $_POST['uniqueID'];
 
-        $sqlCount = "SELECT name , uniqueID from user_registration WHERE uniqueID = '$uID';";
+        $sqlCount = "SELECT name , uniqueID from customer_registration WHERE uniqueID = '$uID';";
 
         $resultCount= mysqli_query($conn, $sqlCount);
 

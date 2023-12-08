@@ -52,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $currentsubTask = 2;
 
 
-    $sql1 = "INSERT INTO user_registration ( uniqueID, name, NIC, email, contact, address, taskID, empUsername, dateAdded, subtaskCount, taskStatus, feedbackGiven, currentsubTask)
+    $sql1 = "INSERT INTO customer_registration ( uniqueID, name, NIC, email, contact, address, taskID, empUsername, dateAdded, subtaskCount, taskStatus, feedbackGiven, currentsubTask)
      VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
     $stmt1 = $conn->prepare($sql1);

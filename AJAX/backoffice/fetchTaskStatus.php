@@ -21,7 +21,7 @@ if ($conn->connect_error) {
 else {
 
 
-$sql = "SELECT taskStatus from user_registration WHERE uniqueID = '$uID';";
+$sql = "SELECT taskStatus from customer_registration WHERE uniqueID = '$uID';";
 
     $resultTaskStatus = mysqli_query($conn, $sql);
 

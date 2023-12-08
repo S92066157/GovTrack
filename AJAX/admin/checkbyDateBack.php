@@ -24,8 +24,8 @@ else {
         ON users.username = ut.empUsername
         INNER JOIN subtasks
         ON ut.subTaskID = subtasks.subtaskid and ut.taskID = subtasks.mainTaskID
-        INNER JOIN user_registration
-        ON user_registration.uniqueID = ut.uniqueID
+        INNER JOIN customer_registration
+        ON customer_registration.uniqueID = ut.uniqueID
         WHERE usertype = 'backoffice' and taskdate = '$date';";
 
         $result= mysqli_query($conn, $sql);

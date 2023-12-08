@@ -9,7 +9,7 @@ function completeTask() {
         var xhr = new XMLHttpRequest();
 
         // Configure it: POST-request to taskStatusUpdate.php
-        xhr.open("POST", "ajax/backoffice/taskStatusUpdateUp.php", true);
+        xhr.open("POST", "AJAX/backoffice/taskStatusUpdateUp.php", true);
 
         xhr.onreadystatechange = function () {
             if (xhr.readyState == 4 && xhr.status == 200) {
@@ -36,7 +36,7 @@ function undoTask() {
         var xhr = new XMLHttpRequest();
 
         
-        xhr.open("POST", "ajax/backoffice/taskStatusUpdateDown.php", true);
+        xhr.open("POST", "AJAX/backoffice/taskStatusUpdateDown.php", true);
 
 
         xhr.onreadystatechange = function () {
@@ -60,7 +60,7 @@ function clearAll() {
     // Create a new XMLHttpRequest object
     var xhr = new XMLHttpRequest();
 
-    xhr.open("POST", "ajax/backoffice/clear.php", true);
+    xhr.open("POST", "AJAX/backoffice/clear.php", true);
 
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4 && xhr.status == 200) {
@@ -159,7 +159,7 @@ function ErrorAdd() {
             }
         };
 
-        xhr.open("POST", "ajax/backoffice/addRemoveErrors.php", true);
+        xhr.open("POST", "AJAX/backoffice/addRemoveErrors.php", true);
 
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
@@ -181,7 +181,7 @@ function getErrorStatus() {
 
     var xhr = new XMLHttpRequest();
 
-    xhr.open("POST", "ajax/backoffice/fetchTaskStatus.php", true);
+    xhr.open("POST", "AJAX/backoffice/fetchTaskStatus.php", true);
 
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4 && xhr.status == 200) {

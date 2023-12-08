@@ -17,7 +17,7 @@ $mainTaskStatus = "";
 
     $date = date('Y-m-d');
 
-    $sql = "select currentsubTask, subtaskCount, taskStatus from user_registration
+    $sql = "select currentsubTask, subtaskCount, taskStatus from customer_registration
     where uniqueID = '$Uid';";
 
 
@@ -48,7 +48,7 @@ $mainTaskStatus = "";
 
         $nextSubTask = "Done";
 
-        $sql2 = "UPDATE user_registration SET currentsubTask = ? WHERE uniqueID = ?";
+        $sql2 = "UPDATE customer_registration SET currentsubTask = ? WHERE uniqueID = ?";
         $stmt3 = $conn->prepare($sql2);
         $stmt3->bind_param("ss", $nextSubTask , $Uid);
 
@@ -89,7 +89,7 @@ $mainTaskStatus = "";
         $nextSubTask = $currentSubTask + 1;
         
         
-        $sql2 = "UPDATE user_registration SET currentsubTask = ? WHERE uniqueID = ?";
+        $sql2 = "UPDATE customer_registration SET currentsubTask = ? WHERE uniqueID = ?";
         $stmt1 = $conn->prepare($sql2);
         $stmt1->bind_param("is", $nextSubTask , $Uid);
 

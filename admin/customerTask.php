@@ -1,8 +1,14 @@
 <?php
 
-include ('../connect.php');
+include('../connect.php');
 
-session_start(); 
+session_start();
+
+$usertype = $_SESSION['usertype'];
+
+if (!isset($usertype) || $usertype != 'admin') {
+  header('location:adminlogin.php');
+}
 
 ?>
 
@@ -119,13 +125,14 @@ session_start();
 
             <div class="row">
               <div class="col-sm-8 col-xs-8 col-md-4 mt-5 col-lg-6 mx-auto text-center">
-            
-            <input type="text" class="form-control mr-1"  id="uniqueID" name="uniqueID" required>
-            <input type="button" class="btn btn-primary mt-5" onclick="retrieveTaskDetails()" value="SEARCH">
-            <input type="button" onclick="location.href='reports.php'" class="btn btn-danger mt-5 customerMarginLeft" value="BACK">
+
+                <input type="text" class="form-control mr-1" id="uniqueID" name="uniqueID" required>
+                <input type="button" class="btn btn-primary mt-5" onclick="retrieveTaskDetails()" value="SEARCH">
+                <input type="button" onclick="location.href='reports.php'"
+                  class="btn btn-danger mt-5 customerMarginLeft" value="BACK">
               </div>
 
-          </div>
+            </div>
         </form>
       </div>
     </div>

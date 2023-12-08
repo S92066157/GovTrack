@@ -17,11 +17,11 @@ else {
 
         $data = array();
 
-        $sql = "SELECT name , uniqueID , taskdescription ,empusername, dateAdded from user_registration
+        $sql = "SELECT name , uniqueID , taskdescription ,empusername, dateAdded from customer_registration
         INNER JOIN tasks
-        ON user_registration.taskID = tasks.taskID 
+        ON customer_registration.taskID = tasks.taskID 
         INNER JOIN users
-        ON user_registration.empusername = users.username
+        ON customer_registration.empusername = users.username
         WHERE usertype = 'frontoffice' AND dateAdded = '$date';";
 
         $result= mysqli_query($conn, $sql);

@@ -1,15 +1,16 @@
 <?php
 
-include ('../connect.php');
+include('../connect.php');
 
-session_start(); 
+session_start();
 
+$usertype = $_SESSION['usertype'];
 
+if (!isset($usertype) || $usertype != 'admin') {
+  header('location:adminlogin.php');
+}
 
 ?>
-
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -65,7 +66,7 @@ session_start();
 
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
       <a class="navbar-brand">GOVTrack</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
@@ -75,7 +76,7 @@ session_start();
       <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="adminDashboard.php" >Home</a>
+            <a class="nav-link" aria-current="page" href="adminDashboard.php">Home</a>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"

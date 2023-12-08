@@ -9,7 +9,7 @@ if(isset($_POST['submit'])){
 
    $uniqueID = $_POST['uniqueID'];
    
-   $result = mysqli_query($conn, "SELECT * FROM `user_registration` WHERE uniqueID = '$uniqueID' ") or die('query failed');
+   $result = mysqli_query($conn, "SELECT * FROM `customer_registration` WHERE uniqueID = '$uniqueID' ") or die('query failed');
 
    if(mysqli_num_rows($result) > 0){
 

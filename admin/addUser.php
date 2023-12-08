@@ -4,7 +4,11 @@ include('../connect.php');
 
 session_start();
 
+$usertype = $_SESSION['usertype'];
 
+if (!isset($usertype) || $usertype != 'admin') {
+  header('location:adminlogin.php');
+}
 
 ?>
 
@@ -246,9 +250,6 @@ session_start();
       }
 
     }
-
-
-
   </script>
 
   <script src="../JS/javascriptsAdmin.js"></script>

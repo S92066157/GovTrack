@@ -1,8 +1,14 @@
 <?php
 
-include ( '../connect.php' );
+include('../connect.php');
 
 session_start();
+
+$usertype = $_SESSION['usertype'];
+
+if (!isset($usertype) || $usertype != 'admin') {
+  header('location:adminlogin.php');
+}
 
 ?>
 
@@ -237,7 +243,7 @@ session_start();
         return;
         // Stop execution if any input is empty
       }
-      else if(number == 0){
+      else if (number == 0) {
         alert('There must be at least one subtask for the main task.');
         return;
       }

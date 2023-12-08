@@ -4,7 +4,11 @@ include('../connect.php');
 
 session_start();
 
+$usertype = $_SESSION['usertype'];
 
+if (!isset($usertype) || $usertype != 'admin') {
+  header('location:adminlogin.php');
+}
 
 $sql0 = "SELECT COUNT(username) as frontoffice FROM users WHERE usertype = 'frontoffice';";
 
@@ -51,7 +55,7 @@ $activeBackofficeCount = $row3['activeBack'];
 $totalActive = $activeFrontofficeCount + $activeBackofficeCount;
 
 
-$sql4 = "SELECT Count(uniqueID) as onGoing FROM user_registration WHERE taskStatus = 1 AND currentsubTask != 'Done'";
+$sql4 = "SELECT Count(uniqueID) as onGoing FROM customer_registration WHERE taskStatus = 1 AND currentsubTask != 'Done'";
 
 $stmt4 = $conn->prepare($sql4);
 $stmt4->execute();
@@ -61,7 +65,7 @@ $stmt4->close();
 $onGoingTaskCount = $row4['onGoing'];
 
 
-$sql5 = "SELECT Count(uniqueID) as completed FROM user_registration WHERE taskStatus = 1 AND currentsubTask = 'Done'";
+$sql5 = "SELECT Count(uniqueID) as completed FROM customer_registration WHERE taskStatus = 1 AND currentsubTask = 'Done'";
 
 $stmt5 = $conn->prepare($sql5);
 $stmt5->execute();
@@ -71,7 +75,7 @@ $stmt5->close();
 $completedTaskCount = $row5['completed'];
 
 
-$sql6 = "SELECT Count(uniqueID) as hold FROM user_registration WHERE taskStatus = 0";
+$sql6 = "SELECT Count(uniqueID) as hold FROM customer_registration WHERE taskStatus = 0";
 
 $stmt6 = $conn->prepare($sql6);
 $stmt6->execute();
@@ -81,7 +85,7 @@ $stmt6->close();
 $holdTaskCount = $row6['hold'];
 
 
-$sql7 = "SELECT Count(uniqueID) as feedbackSubmitted FROM user_registration WHERE taskStatus = 1 AND currentsubTask = 'Done' AND feedbackgiven = 1";
+$sql7 = "SELECT Count(uniqueID) as feedbackSubmitted FROM customer_registration WHERE taskStatus = 1 AND currentsubTask = 'Done' AND feedbackgiven = 1";
 
 $stmt7 = $conn->prepare($sql7);
 $stmt7->execute();

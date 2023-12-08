@@ -17,7 +17,7 @@ if (!$conn) {
 if (isset($_POST['id'])) {
     $id = $_POST['id'];
     
-    $sql = "SELECT uniqueID, name, email, contact, nic, address FROM user_registration WHERE uniqueID = '$id'";
+    $sql = "SELECT uniqueID, name, email, contact, nic, address FROM customer_registration WHERE uniqueID = '$id'";
     $result = mysqli_query($conn, $sql);
 
     if (mysqli_num_rows($result) == 1) {

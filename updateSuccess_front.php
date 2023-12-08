@@ -44,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
     // Prepare the update query using prepared statement
-    $sql = "UPDATE user_registration SET  email = ?, contact = ?, address = ?, empUsername = ? 
+    $sql = "UPDATE customer_registration SET  email = ?, contact = ?, address = ?, empUsername = ? 
 	WHERE uniqueID = ?";
     $stmt = $conn->prepare($sql);
 

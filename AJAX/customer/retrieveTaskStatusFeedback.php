@@ -11,13 +11,13 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 } else {
     if (!empty($cusUID)) {
-        $sql = "SELECT currentSubTask FROM user_registration WHERE uniqueID = '$cusUID';";
+        $sql = "SELECT currentSubTask FROM customer_registration WHERE uniqueID = '$cusUID';";
         $result = mysqli_query($conn, $sql);
 
         if (mysqli_num_rows($result) == 1) {
             while ($row = mysqli_fetch_assoc($result)) {
                 if ($row['currentSubTask'] == "Done") {
-                    $sql1 = "SELECT feedbackgiven FROM user_registration WHERE uniqueID = '$cusUID';";
+                    $sql1 = "SELECT feedbackgiven FROM customer_registration WHERE uniqueID = '$cusUID';";
                     $result1 = mysqli_query($conn, $sql1);
 
                     if (mysqli_num_rows($result1) == 1) {

@@ -16,7 +16,7 @@ if (isset($_POST['submit'])) {
             $row = mysqli_fetch_assoc($select_users);
 
             if ($row['usertype'] != 'admin') {
-                if ($row['isBeingUsed'] == 0) {
+                if ($row['isbeingUsed'] == '0') {
                     $currentUsername = $row['username'];
                     $_SESSION['user_name'] = $currentUsername;
 

@@ -8,7 +8,7 @@ function checkUsernameAvailibility() {
     var xhr = new XMLHttpRequest();
 
     // Configure it: POST-request to with php file
-    xhr.open("POST", "../ajax/admin/fetchusername.php", true);
+    xhr.open("POST", "../AJAX/admin/fetchusername.php", true);
 
     // Set the Content-Type header for POST requests
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -22,7 +22,7 @@ function checkUsernameAvailibility() {
             userStatus.innerText = response.message;
         }
     };
-    
+
     xhr.send("username=" + encodeURIComponent(username));
 }
 
@@ -37,7 +37,7 @@ function createNewUser() {
     var xhr = new XMLHttpRequest();
 
     // Configure it: POST-request to with php file
-    xhr.open("POST", "../ajax/admin/createNewUser.php", true);
+    xhr.open("POST", "../AJAX/admin/createNewUser.php", true);
 
     // Set the Content-Type header for POST requests
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -76,7 +76,7 @@ function updateUser() {
 
 
     // Configure it: POST-request to with php file
-    xhr.open("POST", "../ajax/admin/updateUserData.php", true);
+    xhr.open("POST", "../AJAX/admin/updateUserData.php", true);
 
     // Set the Content-Type header for POST requests
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -107,7 +107,7 @@ function deleteUser() {
     var xhr = new XMLHttpRequest();
 
     // Configure it: POST-request to with php file
-    xhr.open("POST", "../ajax/admin/deleteUser.php", true);
+    xhr.open("POST", "../AJAX/admin/deleteUser.php", true);
 
     // Set the Content-Type header for POST requests
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -119,7 +119,7 @@ function deleteUser() {
             var response = xhr.responseText;
 
             alert(response);
-            console.log(response);
+            //console.log(response);
 
             document.getElementById("userReg").reset();
 
@@ -141,7 +141,7 @@ function loadUserData() {
 
 
     // Configure it: POST-request to with php file
-    xhr.open("POST", "../ajax/admin/fetchuserdata.php", true);
+    xhr.open("POST", "../AJAX/admin/fetchuserdata.php", true);
 
     // Set the Content-Type header for POST requests
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -178,7 +178,7 @@ function loadUserDataDelete() {
     var xhr = new XMLHttpRequest();
 
     // Configure it: POST-request to with php file
-    xhr.open("POST", "../ajax/admin/fetchuserdata.php", true);
+    xhr.open("POST", "../AJAX/admin/fetchuserdata.php", true);
 
     // Set the Content-Type header for POST requests
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -218,7 +218,7 @@ function retrieveTaskDetails() {
     var xhr = new XMLHttpRequest();
 
     // Configure it: POST-request to with php file
-    xhr.open("POST", "../ajax/admin/checkRef.php", true);
+    xhr.open("POST", "../AJAX/admin/checkRef.php", true);
 
     // Set the Content-Type header for POST requests
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -254,7 +254,7 @@ function retrieveDetailsbyDateFront() {
     var xhr = new XMLHttpRequest();
 
     // Configure it: POST-request to with php file
-    xhr.open("POST", "../ajax/admin/checkbyDateFront.php", true);
+    xhr.open("POST", "../AJAX/admin/checkbyDateFront.php", true);
 
     // Set the Content-Type header for POST requests
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -270,7 +270,6 @@ function retrieveDetailsbyDateFront() {
                 heading.innerText = "";
                 table.innerHTML = "";
             }
-
 
             else {
                 heading.innerText = "Task by frontoffice officers"
@@ -298,7 +297,7 @@ function retrieveDetailsbyDateBack() {
 
 
     // Configure it: POST-request to with php file
-    xhr.open("POST", "../ajax/admin/checkbyDateBack.php", true);
+    xhr.open("POST", "../AJAX/admin/checkbyDateBack.php", true);
 
     // Set the Content-Type header for POST requests
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -342,7 +341,7 @@ function loadUsernames() {
 
 
     // Configure it: POST-request to with php file
-    xhr.open("POST", "../ajax/admin/getUsernames.php", true);
+    xhr.open("POST", "../AJAX/admin/getUsernames.php", true);
 
     // Set the Content-Type header for POST requests
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -377,7 +376,7 @@ function loadtaskbyUser() {
     var xhr = new XMLHttpRequest();
 
     // Configure it: POST-request to with php file
-    xhr.open("POST", "../ajax/admin/checkbyUsername.php", true);
+    xhr.open("POST", "../AJAX/admin/checkbyUsername.php", true);
 
     // Set the Content-Type header for POST requests
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -404,11 +403,35 @@ function loadtaskbyUser() {
                 });
 
             }
-
         }
     };
-   
+
     xhr.send("username=" + encodeURIComponent(username));
+}
+
+function resetUserState() {
+
+    var username = document.getElementById('username').value;
+
+    var xhr = new XMLHttpRequest();
+
+    // Configure it: POST-request to with php file
+    xhr.open("POST", "../AJAX/admin/resetUserState.php", true);
+
+    // Set the Content-Type header for POST requests
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+    // Define the onreadystatechange callback function
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+
+            var response = xhr.responseText;
+
+            alert(response);
+        }
+    };
+
+    xhr.send("username=" + encodeURIComponent(username.trim()));
 }
 
 

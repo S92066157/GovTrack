@@ -26,7 +26,7 @@ if (isset($_POST['error1']) && isset($_POST['error2']) && isset($_POST['error3']
     $date = date('Y-m-d');
 
 
-    $sqlcurrentStage = "SELECT currentSubTask FROM user_registration
+    $sqlcurrentStage = "SELECT currentSubTask FROM customer_registration
     WHERE uniqueID = '$uID';";
 
     $resultCurrentStage = mysqli_query($conn, $sqlcurrentStage);
@@ -44,7 +44,7 @@ if (isset($_POST['error1']) && isset($_POST['error2']) && isset($_POST['error3']
 
         if ($textError1 == 1 || $textError2 == 1 || $textError3 == 1) {
 
-            $sql0 = "UPDATE user_registration SET taskStatus = 0 WHERE uniqueID = '$uID';";
+            $sql0 = "UPDATE customer_registration SET taskStatus = 0 WHERE uniqueID = '$uID';";
 
             $stmt0 = $conn->prepare($sql0);
 
@@ -55,7 +55,7 @@ if (isset($_POST['error1']) && isset($_POST['error2']) && isset($_POST['error3']
             }
 
         } else if ($textError1 == 0 && $textError2 == 0 && $textError3 == 0) {
-            $sql6 = "UPDATE user_registration SET taskStatus = 1 WHERE uniqueID = '$uID';";
+            $sql6 = "UPDATE customer_registration SET taskStatus = 1 WHERE uniqueID = '$uID';";
 
             $stmt6 = $conn->prepare($sql6);
 

@@ -22,7 +22,7 @@ else {
         $userContactNo = $_POST['contactNo'];
         $userNIC = $_POST['nic'];
 
-        $sqlCusDetails = "SELECT uniqueID from user_registration WHERE NIC = '$userNIC' AND contact = '$userContactNo';";
+        $sqlCusDetails = "SELECT uniqueID from customer_registration WHERE NIC = '$userNIC' AND contact = '$userContactNo';";
 
         $resultCusDetails = mysqli_query($conn, $sqlCusDetails);
 

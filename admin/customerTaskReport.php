@@ -4,6 +4,12 @@ include('../connect.php');
 
 session_start();
 
+$usertype = $_SESSION['usertype'];
+
+if (!isset($usertype) || $usertype != 'admin') {
+  header('location:adminlogin.php');
+}
+
 $uID = $_SESSION['uniqueIDCustomer'];
 $taskName = "";
 $cusName = "";
@@ -21,11 +27,11 @@ if (!$conn) {
 
 
 
-$sql0 = "SELECT tasks.taskdescription, user_registration.name 
+$sql0 = "SELECT tasks.taskdescription, customer_registration.name 
         FROM tasks
-        INNER JOIN user_registration 
-        ON user_registration.taskid = tasks.taskid
-        WHERE user_registration.uniqueID = '$uID'";
+        INNER JOIN customer_registration 
+        ON customer_registration.taskid = tasks.taskid
+        WHERE customer_registration.uniqueID = '$uID'";
 
 $stmt0 = $conn->prepare($sql0);
 $stmt0->execute();
@@ -37,7 +43,7 @@ $cusName = $row0["name"];
 
 
 $sql1 = "SELECT taskdescription, subtaskdescription, taskdate  , ut.empUsername as empName
-                FROM user_registration ur
+                FROM customer_registration ur
                 CROSS JOIN subtasks st  
                 LEFT JOIN usertasks ut 
                     ON ur.uniqueID = ut.uniqueID AND st.subtaskid = ut.subtaskid
@@ -64,7 +70,7 @@ $stmt2->close();
 
 
 
-$sql3 = "SELECT currentSubTask , feedbackGiven FROM user_registration WHERE uniqueID = '$uID';";
+$sql3 = "SELECT currentSubTask , feedbackGiven FROM customer_registration WHERE uniqueID = '$uID';";
 
 $stmt3 = $conn->prepare($sql3);
 $stmt3->execute();

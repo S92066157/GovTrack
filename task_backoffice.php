@@ -37,7 +37,7 @@ if (!$conn) {
             echo '<script>alert("Reference number cannot be empty.\nPlease try again")</script>';
         } else {
 
-            $quaryTaskID = "SELECT uniqueID, taskID , currentSubtask FROM user_registration WHERE uniqueID = '$Uid'";
+            $quaryTaskID = "SELECT uniqueID, taskID , currentSubtask FROM customer_registration WHERE uniqueID = '$Uid'";
 
             $resultTaskID = mysqli_query($conn, $quaryTaskID);
 
@@ -64,9 +64,9 @@ if (!$conn) {
 
 
 
-            $sql = "SELECT uniqueID, name, email, contact, nic ,address , taskdescription , currentsubtask, taskStatus FROM user_registration
+            $sql = "SELECT uniqueID, name, email, contact, nic ,address , taskdescription , currentsubtask, taskStatus FROM customer_registration
         inner join tasks on 
-        user_registration.taskid = tasks.taskid WHERE uniqueID = '$Uid'";
+        customer_registration.taskid = tasks.taskid WHERE uniqueID = '$Uid'";
             $result = mysqli_query($conn, $sql);
 
             if (mysqli_num_rows($result) == 1) {

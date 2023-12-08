@@ -4,6 +4,11 @@ include('../connect.php');
 
 session_start();
 
+$usertype = $_SESSION['usertype'];
+
+if (!isset($usertype) || $usertype != 'admin') {
+  header('location:adminlogin.php');
+}
 
 ?>
 
@@ -158,13 +163,14 @@ session_start();
             <option value="backoffice">Backoffice User</option>
           </select>
 
-          <div class="col-lg-6 mx-auto text-center mt-4 d-flex ">
+          <div class="col-lg-8 mx-auto text-center mt-4 d-flex ">
 
             <button type="button" onclick="formSubmit()" class="btn btn-primary mx-auto d-block">Update User</button>
             <button type="button" class="btn btn-danger mx-auto d-block" onclick="resetForm()">Clear Form</button>
             <button type="button" class="btn btn-danger  mx-auto d-block" onclick="loadUserDataDelete()">Delete
               User</button>
-            <button type="button" class="btn btn-warning  mx-auto d-block"
+              <button type="button" class="btn btn-warning  mx-auto d-block" onclick="resetUserState()">Reset User State</button>
+            <button type="button" class="btn btn-primary  mx-auto d-block"
               onclick="location.href='Users.php'">Back</button>
 
           </div>

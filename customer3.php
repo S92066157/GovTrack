@@ -14,7 +14,7 @@ if (!$conn) {
 }
 
 $sql = "SELECT taskdescription , name FROM tasks
-        INNER JOIN user_registration ON user_registration.taskid = tasks.taskid
+        INNER JOIN customer_registration ON customer_registration.taskid = tasks.taskid
         WHERE uniqueID = '$uID'";
 
 
@@ -36,7 +36,7 @@ if ($result->num_rows == 1) {
 
 // Use prepared statement to avoid SQL injection
 $sql1 = "SELECT taskdescription, subtaskdescription, taskdate 
-                FROM user_registration ur
+                FROM customer_registration ur
                 CROSS JOIN subtasks st  
                 LEFT JOIN usertasks ut 
                     ON ur.uniqueID = ut.uniqueID AND st.subtaskid = ut.subtaskid

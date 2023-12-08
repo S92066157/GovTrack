@@ -24,7 +24,7 @@ else {
         $sql0 = "INSERT INTO customerFeedback ( uniqueID, ratings, feedback) VALUES ( '$cusUID', '$rating', '$feedback');";
         $stmt0 = $conn->prepare($sql0);
 
-        $sql1 = "UPDATE user_registration SET feedbackGiven = 1 WHERE uniqueID ='$cusUID';";
+        $sql1 = "UPDATE customer_registration SET feedbackGiven = 1 WHERE uniqueID ='$cusUID';";
         $stmt1 = $conn->prepare($sql1);
 
         if ($stmt0->execute() && $stmt1->execute()){

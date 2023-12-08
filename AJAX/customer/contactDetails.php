@@ -20,7 +20,7 @@ else {
 
         $userContactNo = $_POST['contactNo'];
 
-        $sqlContact = "SELECT contact from user_registration WHERE uniqueID = '$uID';";
+        $sqlContact = "SELECT contact from customer_registration WHERE uniqueID = '$uID';";
 
         $resultContact = mysqli_query($conn, $sqlContact);
 

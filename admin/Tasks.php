@@ -1,15 +1,16 @@
 <?php
 
-include ('../connect.php');
+include('../connect.php');
 
-session_start(); 
+session_start();
 
+$usertype = $_SESSION['usertype'];
 
+if (!isset($usertype) || $usertype != 'admin') {
+  header('location:adminlogin.php');
+}
 
 ?>
-
-
-
 
 <!DOCTYPE html>
 <html lang="en">
