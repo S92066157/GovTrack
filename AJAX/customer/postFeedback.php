@@ -4,10 +4,7 @@ include ('../../connect.php');
 
 session_start();
 
-
 $cusUID = $_SESSION['uniqueID'];
-
-
 
 // Check the connection
 if ($conn->connect_error) {
@@ -20,8 +17,9 @@ else {
 
         $rating = $_POST['rating'];
         $feedback = $_POST['feedback'];
+        $date = date('Y-m-d');
 
-        $sql0 = "INSERT INTO customerFeedback ( uniqueID, ratings, feedback) VALUES ( '$cusUID', '$rating', '$feedback');";
+        $sql0 = "INSERT INTO customerFeedback ( uniqueID, ratings, feedback, datePosted) VALUES ( '$cusUID', '$rating', '$feedback', '$date');";
         $stmt0 = $conn->prepare($sql0);
 
         $sql1 = "UPDATE customer_registration SET feedbackGiven = 1 WHERE uniqueID ='$cusUID';";
