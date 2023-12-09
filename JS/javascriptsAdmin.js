@@ -435,6 +435,51 @@ function resetUserState() {
 }
 
 
+function loadtaskbyUserDate(){
+
+    var username = document.getElementById('username').value;
+    var table = document.getElementById('resultTable');
+    var heading = document.getElementById('heading');
+    var date = document.getElementById('date').value;
+
+
+    var xhr = new XMLHttpRequest();
+
+    // Configure it: POST-request to with php file
+    xhr.open("POST", "../AJAX/admin/checkbyUserDate.php", true);
+
+    // Set the Content-Type header for POST requests
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+    // Define the onreadystatechange callback function
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+
+            var response = JSON.parse(xhr.responseText);
+
+            // console.log(response);
+
+            if (response.status == 0) {
+                alert(response.message);
+                heading.innerText = "No Result";
+                table.innerHTML = "";
+            }
+            else {
+                heading.innerText = "Task by " + username;
+                table.innerHTML = "<th> Customer name </th><th> UniqueID </th><th> Task Description</th> <th> Date </th><th> EMP Username </th>";
+
+                response.forEach(function (item) {
+                    table.innerHTML += '<tr><td>' + item.name + '</td><td>' + item.uID + '</td><td>' + item.taskdescription + '</td><td>' + item.taskdate + '</td><td>' + item.empName + '</td><tr>';
+                });
+
+            }
+        }
+    };
+
+    xhr.send("username=" + encodeURIComponent(username) + "&date=" + encodeURIComponent(date));
+}
+
+
 //Function for test External JS file
 function test2() {
     alert("External JS file working");

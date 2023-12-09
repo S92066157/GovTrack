@@ -147,6 +147,17 @@ if (!isset($usertype) || $usertype != 'admin') {
           </div>
         </a>
       </div>
+
+
+
+      <div class="col-sm-8 col-xs-8 col-md-4 col-lg-4 card mx-auto text-center">
+        <a href="taskbyDateUser.php">
+          <div>
+            <img src="img/users.svg" class="my-2" height="100px" alt="">
+            <h1>Date + User</h1>
+          </div>
+        </a>
+      </div>
     </div>
 
 
