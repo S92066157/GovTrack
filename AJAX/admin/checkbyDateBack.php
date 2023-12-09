@@ -1,6 +1,6 @@
 <?php
 
-include ('../../connect.php');
+include('../../connect.php');
 
 session_start();
 
@@ -8,16 +8,16 @@ session_start();
 // Check the connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
-}
+} else {
 
-else {
-
-    if(isset($_POST['date'])) {
+    if (isset($_POST['date'])) {
         $date = $_POST['date'];
 
-        $data = array();
+        if (!empty($date)) {
 
-        $sql = "SELECT name, ut.uniqueid as uID, taskdescription, subtaskdescription, ut.empUsername as empName, taskdate from usertasks ut
+            $data = array();
+
+            $sql = "SELECT name, ut.uniqueid as uID, taskdescription, subtaskdescription, ut.empUsername as empName, taskdate from usertasks ut
         INNER JOIN tasks
         ON ut.taskid = tasks.taskID
         INNER JOIN users
@@ -28,36 +28,43 @@ else {
         ON customer_registration.uniqueID = ut.uniqueID
         WHERE usertype = 'backoffice' and taskdate = '$date';";
 
-        $result= mysqli_query($conn, $sql);
+            $result = mysqli_query($conn, $sql);
 
-       
 
-        if (mysqli_num_rows( $result) > 0) { 
-            while ($row = $result->fetch_assoc()) {
-                $data[] = $row;
+
+            if (mysqli_num_rows($result) > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    $data[] = $row;
+                }
+
+                $jsonData = json_encode($data);
+
+                echo $jsonData;
+            } else {
+
+                $response = array(
+                    'message' => "There is no any completed task by backoffice officers in selected date",
+                    'status' => 0);
+                header('Content-Type: application/json');
+                echo json_encode($response);
             }
+        } else {
 
-            $jsonData = json_encode($data);
-
-            echo $jsonData;
-        }
-
-        else {
-        
-          $response = array(
-            'message' => "There is no any completed task by backoffice officers in selected date",
-            'status'=> 0);
+            $response = array(
+                'message' => "Date is empty. Please try again!",
+                'status' => 0);
             header('Content-Type: application/json');
             echo json_encode($response);
         }
-    }   
-    else {
-        
+
+
+    } else {
+
         $response = array(
             'message' => "Required details not received",
-            'status'=> 0);
-            header('Content-Type: application/json');
-            echo json_encode($response);
+            'status' => 0);
+        header('Content-Type: application/json');
+        echo json_encode($response);
     }
 }
 

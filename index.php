@@ -10,7 +10,7 @@ if (isset($_POST['submit'])) {
     if (empty($username) || empty($pass)) {
         $message[] = 'Inputs cannot be empty. Please retry !';
     } else {
-        $select_users = mysqli_query($conn, "SELECT * FROM users  WHERE username = '$username' AND password = '$pass'") or die('query failed');
+        $select_users = mysqli_query($conn, "SELECT * FROM users  WHERE BINARY username = '$username' AND BINARY password  = '$pass'") or die('query failed');
 
         if (mysqli_num_rows($select_users) == 1) {
             $row = mysqli_fetch_assoc($select_users);

@@ -117,7 +117,7 @@ if(isset($_POST['submit'])){
             
             <button type="submit" name="submit"  class="btn">Submit</button>
 
-            <button type="button" onclick="location.href='customerfrogotref.php'" class="btn"> Forget Reference</button>
+            <button type="button" onclick="location.href='customerforgotref.php'" class="btn"> Forgotten Reference ?</button>
 
 
             </div>
@@ -139,7 +139,7 @@ if(isset($_POST['submit'])){
             
         </div>
                     <h3> Enter Reference number of your task and click on Submit button </h3>
-                        <h3> Click on Frogot reference if you lost your reference number </h3>
+                        <h3> Click on Forgotten reference if you lost your reference number </h3>
 			
     </div>
 </body>

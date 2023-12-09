@@ -10,7 +10,7 @@ if (isset($_POST['submit'])) {
     $pass = mysqli_real_escape_string($conn, $_POST['password']);
 
 
-    $select_users = mysqli_query($conn, "SELECT * FROM users  WHERE username = '$username' AND password = '$pass'") or die('query failed');
+    $select_users = mysqli_query($conn, "SELECT * FROM users  WHERE BINARY username = '$username' AND BINARY password = '$pass'") or die('query failed');
 
     if (mysqli_num_rows($select_users) == 1) {
 
