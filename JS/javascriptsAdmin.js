@@ -435,11 +435,12 @@ function resetUserState() {
 }
 
 
-function loadtaskbyUserDate(){
+function loadtaskbyUserDate() {
 
     var username = document.getElementById('username').value;
     var table = document.getElementById('resultTable');
     var heading = document.getElementById('heading');
+    var countD = document.getElementById('count');
     var date = document.getElementById('date').value;
 
 
@@ -457,20 +458,24 @@ function loadtaskbyUserDate(){
 
             var response = JSON.parse(xhr.responseText);
 
-            // console.log(response);
+            console.log(response);
+            var count = 0;
 
             if (response.status == 0) {
                 alert(response.message);
                 heading.innerText = "No Result";
                 table.innerHTML = "";
+                countD.innerText = "";
             }
             else {
-                heading.innerText = "Task by " + username;
+
                 table.innerHTML = "<th> Customer name </th><th> UniqueID </th><th> Task Description</th> <th> Date </th><th> EMP Username </th>";
 
                 response.forEach(function (item) {
+                    count += 1;
                     table.innerHTML += '<tr><td>' + item.name + '</td><td>' + item.uID + '</td><td>' + item.taskdescription + '</td><td>' + item.taskdate + '</td><td>' + item.empName + '</td><tr>';
                 });
+                heading.innerText = "Username : " + username + " | Task Count : " + count;
 
             }
         }

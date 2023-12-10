@@ -144,8 +144,10 @@ if (!isset($usertype) || $usertype != 'admin') {
     <div class="row">
       <div class="col-sm-8 col-xs-8 col-md-10 col-lg-10 mx-auto text-center">
         <h4 id="heading" class="mt-2 text-white"> </h4>
+        <h4 id="count" class="mt-2 text-white"> </h4>
         <table id="resultTable" class="table table-striped mt-3">
         </table>
+        <h4 id="count" class="mt-2 text-white"> </h4>
       </div>
     </div>
 

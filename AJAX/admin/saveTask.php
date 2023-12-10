@@ -37,9 +37,9 @@ foreach ($data as $inputId => $value) {
             $stmt = $conn->prepare($sql);
 
             if ($stmt->execute()) {
-                echo 'subtask' . $inputId . "was successfully Added\n";
+                echo 'subtask ' . $inputId . "was successfully Added\n";
             } else {
-                echo 'Adding subtask' . $inputId . "was unsuccessful\n";
+                echo 'Adding subtask ' . $inputId . "was unsuccessful\n";
             }
         }
     }

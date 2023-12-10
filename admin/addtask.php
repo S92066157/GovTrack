@@ -219,8 +219,7 @@ if (!isset($usertype) || $usertype != 'admin') {
     function saveData() {
       // Collect data from dynamic inputs
       var inputs = document.getElementsByClassName('task');
-      var data = {
-      };
+      var data = {};
       var isEmpty = false;
 
       for (var i = 0; i < inputs.length; i++) {
@@ -237,6 +236,8 @@ if (!isset($usertype) || $usertype != 'admin') {
         }
       }
 
+      var elementCount = Object.keys(data).length;
+
       // Display an alert if any input is empty
       if (isEmpty) {
         alert('All input fields are required');
@@ -248,20 +249,36 @@ if (!isset($usertype) || $usertype != 'admin') {
         return;
       }
 
-      // Send data to the server using XHR
-      var xhr = new XMLHttpRequest();
-      xhr.open('POST', '../ajax/admin/saveTask.php', true);
-      xhr.setRequestHeader('Content-Type', 'application/json');
-      xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-          var response = xhr.responseText;
-          alert(response);
-          // document.getElementById( 'addtask' ).reset();
-          window.location.href = 'addtask.php';
+      else {
+
+        var subtasks = "";
+
+        for (let i = 1; i < elementCount; i++) {
+          subtasks += data[i] + "\n";
+        };
+
+        if (confirm(
+          "Main Task : " + data[0] + "\n" + subtasks + "\n" +
+          "Please check and confirm that you are going to add these details as new task. these details cannot be edited or this operation cannot be undone"
+        )) {
+
+          // Send data to the server using XHR
+          var xhr = new XMLHttpRequest();
+          xhr.open('POST', '../ajax/admin/saveTask.php', true);
+          xhr.setRequestHeader('Content-Type', 'application/json');
+          xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+              var response = xhr.responseText;
+              alert(response);
+              // document.getElementById( 'addtask' ).reset();
+              window.location.href = 'addtask.php';
+            }
+          }
+            ;
+          xhr.send(JSON.stringify(data));
+
         }
       }
-        ;
-      xhr.send(JSON.stringify(data));
     }
 
   </script>
